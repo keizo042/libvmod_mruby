@@ -1,0 +1,34 @@
+#
+# Copyright Kouichi Nakanishi (c) 2015.
+#
+# (vmodtool requires this format.)
+#
+
+$Module mruby 3 Example VMOD
+
+DESCRIPTION
+===========
+
+This is the embedded documentation for the mruby VMOD. It should
+mention what the vmod is intended to do.
+
+It can span multiple lines and is written in RST format.
+You can even have links and lists in here:
+
+* https://github.com/varnish/libvmod-mruby/
+* https://www.varnish-cache.org/
+
+The init-function declared next does not have documentation.
+
+$Init init_function
+
+The different functions provided by the VMOD should also have their own
+embedded documentation. This section is for the hello() function.
+
+$Function INT conf_path(PRIV_VCL, STRING)
+
+$Function STRING exec(PRIV_VCL, STRING)
+
+$Function INT exec_ret_int(PRIV_VCL, STRING)
+
+$Function VOID exec_void(PRIV_VCL, STRING)
