@@ -7,7 +7,9 @@ libvmod_mruby_la_LDFLAGS = -module -export-dynamic -avoid-version -shared -Imrub
 libvmod_mruby_la_LIBADD = $(top_srcdir)/src/mruby/build/host/lib/libmruby.a
 
 libvmod_mruby_la_SOURCES = \
-	vmod_mruby.c 
+	vmod_mruby.c  \
+	vmod_class.h \
+	vmod_class.c
 	
 
 nodist_libvmod_mruby_la_SOURCES = \

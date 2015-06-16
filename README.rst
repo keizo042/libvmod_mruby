@@ -33,29 +33,31 @@ Prototype
 Return value
 	INT
 Description
-
         ::
 
                 exec(STRING CODE)
 Return value
 	STRING
 Description
+execute ruby script in CODE. and retun result by string.
         ::
 
                 exec_integer(STRING CODE)
 Return value
 	INT
 Description
+exec, return integer.
         ::
 
                 exec_void(STRING CODE)
 Return value
-	INT
+	VOID
 Description
+    exec ,return void 
 Example
         ::
 
-                set resp.http.hello = mruby.exec("'hello World'");
+                set resp.http.hello = mruby.exec("'Hello World'");
 
 INSTALLATION
 ============
@@ -93,7 +95,7 @@ In your VCL you could then use this vmod along the following lines::
 
         sub vcl_deliver {
                 # This sets resp.http.hello to "Hello, World"
-                set resp.http.hello = mruby.hello("World");
+                set resp.http.hello = mruby.exec("'Hello World'");
         }
 
 COMMON PROBLEMS

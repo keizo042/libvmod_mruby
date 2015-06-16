@@ -8,6 +8,48 @@
 #include "mruby/class.h"
 
 
+
+
+
+static mrb_value mrb_vmod_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_vmod_recv_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_vmod_fetch_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_vmod_action_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_vmod_deliver_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_vmod_pass_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_vmod_hit_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_vmod_miss_init(mrb_state *mrb, mrb_value value)
+{
+    return mrb_nil_value();
+}
 void mrb_vmod_class_define(mrb_state *mrb)
 {
     struct RClass *varnish, *miss, *recv, *pass, *hit, *fetch, *action, *deliver;
@@ -16,6 +58,9 @@ void mrb_vmod_class_define(mrb_state *mrb)
     fetch       = mrb_define_class(mrb, "Fetch",    varnish);
     action      = mrb_define_class(mrb, "Action",   varnish);
     deliver     = mrb_define_class(mrb, "Deliver",  varnish);
+    hit         = mrb_define_class(mrb, "Hit",      varnish);
+    pass         = mrb_define_class(mrb, "Pass",      varnish);
+    miss         = mrb_define_class(mrb, "Miss",      varnish);
 
 
     mrb_define_method(mrb, varnish, "initialize", mrb_vmod_init,            MRB_ARGS_NONE() );
@@ -23,32 +68,8 @@ void mrb_vmod_class_define(mrb_state *mrb)
     mrb_define_method(mrb, fetch,   "initialize", mrb_vmod_fetch_init,      MRB_ARGS_NONE() );
     mrb_define_method(mrb, action,  "initialize", mrb_vmod_action_init,     MRB_ARGS_NONE() );
     mrb_define_method(mrb, deliver, "initialize", mrb_vmod_deliver_init,    MRB_ARGS_NONE() );
+    mrb_define_method(mrb, hit,     "initialize", mrb_vmod_hit_init,    MRB_ARGS_NONE() );
+    mrb_define_method(mrb, pass,     "initialize", mrb_vmod_pass_init,    MRB_ARGS_NONE() );
+    mrb_define_method(mrb, miss,     "initialize", mrb_vmod_miss_init,    MRB_ARGS_NONE() );
 
-}
-
-
-
-static mrb_vmod_init(mrb_state *mrb, mrb_value value)
-{
-    return value;
-}
-
-static mrb_vmod_recv_init(mrb_state *mrb, mrb_value value)
-{
-    return value;
-}
-
-static mrb_vmod_fetch_init(mrb_state *mrb, mrb_value value)
-{
-    return value;
-}
-
-static mrb_vmod_action_init(mrb_state *mrb, mrb_value value)
-{
-    return value;
-}
-
-static mrb_vmod_deliver_init(mrb_state *mrb, mrb_value value)
-{
-    return value;
 }
