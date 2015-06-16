@@ -37,5 +37,5 @@ VCL extension mruby DSL
 %{_mandir}/man?/*
 
 %changelog
-* Wed Jun 15 2015 Kouichi Nakanishi <keizo.bookman@gmail.com> - 0.1-0.20150615
+* Wed Jun 17 2015 Kouichi Nakanishi <keizo.bookman@gmail.com> - 0.1-0.20150617
 - Initial version.

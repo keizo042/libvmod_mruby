@@ -29,6 +29,6 @@ $Function INT conf_path(PRIV_VCL, STRING)
 
 $Function STRING exec(PRIV_VCL, STRING)
 
-$Function INT exec_ret_int(PRIV_VCL, STRING)
+$Function INT exec_integer(PRIV_VCL, STRING)
 
 $Function VOID exec_void(PRIV_VCL, STRING)

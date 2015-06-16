@@ -3,11 +3,12 @@ AM_CPPFLAGS = @VMOD_INCLUDES@ -Wall -Werror -Imruby/include -lm
 vmoddir = @VMOD_DIR@
 vmod_LTLIBRARIES = libvmod_mruby.la
 
-libvmod_mruby_la_LDFLAGS = -module -export-dynamic -avoid-version -shared -Imruby/include -lm
+libvmod_mruby_la_LDFLAGS = -module -export-dynamic -avoid-version -shared -Imruby -Imruby/include -lm
 libvmod_mruby_la_LIBADD = $(top_srcdir)/src/mruby/build/host/lib/libmruby.a
 
 libvmod_mruby_la_SOURCES = \
-	vmod_mruby.c
+	vmod_mruby.c 
+	
 
 nodist_libvmod_mruby_la_SOURCES = \
 	vcc_if.c \

@@ -3,10 +3,10 @@ vmod_mruby
 ============
 
 ----------------------
-Varnish Example Module
+Varnish Mruby Module
 ----------------------
 
-:Date: 2015-03-03
+:Date: 2015-06-17
 :Version: 1.0
 :Manual section: 3
 
@@ -18,28 +18,44 @@ import mruby;
 DESCRIPTION
 ===========
 
-Example Varnish vmod demonstrating how to write an out-of-tree Varnish vmod.
-
-Implements the traditional Hello World as a vmod.
+mruby DSL  for VCL
 
 FUNCTIONS
 =========
 
-hello
+conf_path
 -----
 
 Prototype
         ::
 
-                hello(STRING S)
+                conf_path(STRING PATH)
+Return value
+	INT
+Description
+
+        ::
+
+                exec(STRING CODE)
 Return value
 	STRING
 Description
-	Returns "Hello, " prepended to S
+        ::
+
+                exec_integer(STRING CODE)
+Return value
+	INT
+Description
+        ::
+
+                exec_void(STRING CODE)
+Return value
+	INT
+Description
 Example
         ::
 
-                set resp.http.hello = mruby.hello("World");
+                set resp.http.hello = mruby.exec("'hello World'");
 
 INSTALLATION
 ============
@@ -87,3 +103,9 @@ COMMON PROBLEMS
 
   Check if ``PKG_CONFIG_PATH`` has been set correctly before calling
   ``autogen.sh`` and ``configure``
+
+CONTACT ME
+==============
+
+mail: keizo.bookman@gmail.com
+twitter @keizo_bookman

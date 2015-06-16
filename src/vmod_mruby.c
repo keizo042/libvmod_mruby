@@ -17,7 +17,7 @@
 #include "mruby/value.h"
 #include "mruby/string.h"
 
-void  mrb_vmod_class_define(mrb_state* mrb);
+//void  mrb_vmod_class_define(mrb_state* mrb);
 
 static  void mrb_vmod_close(void*p)
 {
@@ -27,37 +27,39 @@ static  void mrb_vmod_close(void*p)
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 {
-    mrb_state *mrb = mrb_open();
-    if(!mrb)
+    if(priv->priv == NULL)
     {
-        return -1;
+        mrb_state *mrb = mrb_open();
+        if(!mrb)
+        {
+            return -1;
+        }
+        priv->priv = (void*)mrb;
+        priv->free = (vmod_priv_free_f*)mrb_vmod_close;
     }
 
-    priv->priv = (void*)mrb;
-    priv->free = (vmod_priv_free_f*)mrb_vmod_close;
-    mrb_vmod_class_define(mrb);
+//    mrb_vmod_class_define(mrb);
 	return (0);
 }
 
-VCL_INT vmod_conf_path(struct vrt_ctx *ctx, struct vmod_priv *priv, VCL_STRING path)
+VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
     mrb_state *mrb= (mrb_state*)priv->priv;
     FILE *fp;
-    mrb_value v;
+    //mrb_value v;
 
     fp = fopen(path,"r");
     if(fp == NULL)
     {
         return -1;
     }
-    v = mrb_load_file(mrb,fp);
+    mrb_load_file(mrb,fp);
     return 0;
 }
 
-static mrb_value  mrb_code_exec(mrb_state *mrb, struct vmod_priv *priv, const char *code)
+static mrb_value  mrb_code_exec(mrb_state *mrb, const char *code)
 {
     mrb_value ret;
-    mrb =mrb_open();
     if(!mrb)
     {
         return mrb_nil_value();
@@ -69,28 +71,28 @@ static mrb_value  mrb_code_exec(mrb_state *mrb, struct vmod_priv *priv, const ch
 
 }
 
-VCL_STRING vmod_exec(const struct vrt_ctx *ctx, struct vmod_priv *priv, VCL_STRING code)
+VCL_STRING vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     mrb_state *mrb = (mrb_state*)priv->priv;
-    mrb_value v = mrb_code_exec(mrb,code);
+    mrb_value v = mrb_code_exec(mrb, code);
     if(!mrb_string_p(v))
     {
-        return "";
+        v = mrb_obj_as_string(mrb,v);
     }
 
-    return mrb_cptr(v);
+    return RSTRING_PTR(v);
 }
-VCL_INT vmod_exec_ret_int(const struct vrt_ctx *ctx, struct vmod_priv *priv, VCL_STRING code)
+VCL_INT vmod_exec_integer(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     mrb_state *mrb = (mrb_state*)priv->priv;
-    mrb_value v = mrb_code_exec(mrb,code);
+    mrb_value v = mrb_code_exec(mrb, code);
     if(!mrb_fixnum_p(v))
     {
         return 0;
     }
     return mrb_fixnum(v);
 }
-VCL_VOID vmod_exec_void(const struct vrt_ctx *ctx, struct vmod_priv *priv, VCL_STRING code)
+VCL_VOID vmod_exec_void(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     mrb_state *mrb = (mrb_state*)priv->priv;
      mrb_code_exec(mrb, code);
