@@ -107,5 +107,5 @@ COMMON PROBLEMS
 CONTACT ME
 ==============
 
-|mail: keizo.bookman@gmail.com  
-twitter @keizo_bookman  
+|mail: keizo.bookman@gmail.com 
+|twitter @keizo_bookman 
