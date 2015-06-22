@@ -27,16 +27,18 @@ static  void mrb_vmod_close(void*p)
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 {
+    mrb_state *mrb = NULL;
     if(priv->priv == NULL)
     {
-        mrb_state *mrb = mrb_open();
+         mrb = mrb_open();
         if(!mrb)
         {
             return -1;
         }
-        priv->priv = (void*)mrb;
-        priv->free = (vmod_priv_free_f*)mrb_vmod_close;
     }
+
+    priv->priv = (void*)mrb;
+    priv->free = (vmod_priv_free_f*)mrb_vmod_close;
 
     mrb_vmod_class_define(mrb);
 	return (0);
