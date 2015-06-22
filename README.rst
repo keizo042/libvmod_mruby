@@ -23,8 +23,6 @@ mruby DSL  for VCL
 FUNCTIONS
 =========
 
-conf_path
------
 
 Prototype
         ::
