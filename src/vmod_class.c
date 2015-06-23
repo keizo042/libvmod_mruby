@@ -142,7 +142,6 @@ void mrb_vmod_fetch_define(mrb_state *mrb)
 void mrb_vmod_backend_define(mrb_state *mrb)
 {
     struct RClass *varnish, *backend;
-    mrb_sym sym;
     varnish = mrb_class_get(mrb, "Varnish");
 
     backend     = mrb_define_class(mrb, "Backend", varnish);
