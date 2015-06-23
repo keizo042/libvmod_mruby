@@ -23,6 +23,12 @@ AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_MAKE_SET
 
+# Check for git
+AC_CHECK_PROGS(GIT, [git], "no")
+if test "x$GIT" = "xno"; then
+	AC_MSG_ERROR([git not found])
+fi
+
 # Check for rst utilities
 AC_CHECK_PROGS(RST2MAN, [rst2man rst2man.py], "no")
 if test "x$RST2MAN" = "xno"; then
