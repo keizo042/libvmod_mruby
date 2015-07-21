@@ -44,6 +44,7 @@ init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 	return (0);
 }
 
+
 VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
     mrb_state *mrb= (mrb_state*)priv->priv;
@@ -55,6 +56,13 @@ VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     {
         return -1;
     }
+
+    if(mrb->ud)
+    {
+        mrb_free(mrb,mrb->ud);
+    }
+    mrb->ud = (void*)ctx;
+
     mrb_load_file(mrb,fp);
     return 0;
 }

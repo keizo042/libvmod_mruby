@@ -3,87 +3,96 @@
 #include "vrt.h"
 #include "vrt_obj.h"
 
+
 #include "mruby.h"
 #include "mruby/data.h"
 #include "mruby/class.h"
 #include "mruby/variable.h"
 
+#include "vmod_class.h"
 
 
+/*
+ *
+ *  initalize functions
+ *
+ */
 
-
-static mrb_value mrb_vmod_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+
+    return self;
 }
 
-static mrb_value mrb_vmod_recv_init(mrb_state *mrb, mrb_value value)
+
+static mrb_value mrb_vmod_recv_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_fetch_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_fetch_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_action_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_action_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_deliver_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_deliver_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_pass_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_pass_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_hit_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_hit_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_miss_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_miss_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_prob_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_probe_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    
+
+    return self;
 }
 
-static mrb_value mrb_vmod_backend_init(mrb_state *mrb, mrb_value value)
+
+static mrb_value mrb_vmod_pipe_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_pipe_init(mrb_state *mrb, mrb_value value)
+static mrb_value mrb_vmod_lookup_init(mrb_state *mrb, mrb_value self)
 {
-    return mrb_nil_value();
+    return self;
 }
 
-static mrb_value mrb_vmod_lookup_init(mrb_state *mrb, mrb_value value)
-{
-    return mrb_nil_value();
-}
 
-static mrb_value mrb_vmod_resp_init(mrb_state *mrb, mrb_value value)
-{
-    return mrb_nil_value();
-}
 
-void mrb_vmod_prob_define(mrb_state *mrb)
+/*
+ *
+ * Class and Module define.
+ *
+ */
+
+void mrb_vmod_probe_define(mrb_state *mrb)
 {
-    struct RClass *varnish, *prob;
+    struct RClass *varnish, *probe;
     varnish= mrb_class_get(mrb,"Varnish");
-    prob        = mrb_define_class(mrb, "Prob",     varnish);
+    probe        = mrb_define_class(mrb, "Probe",     varnish);
 
-    mrb_define_method(mrb, prob,    "initialize", mrb_vmod_prob_init,   MRB_ARGS_NONE() );
+    mrb_define_method(mrb, probe,    "initialize", mrb_vmod_probe_init,   MRB_ARGS_NONE() );
 }
 
 void mrb_vmod_action_define(mrb_state *mrb)
@@ -139,30 +148,17 @@ void mrb_vmod_fetch_define(mrb_state *mrb)
     mrb_define_method(mrb, fetch,   "initialize", mrb_vmod_fetch_init,      MRB_ARGS_NONE() );
 }
 
-void mrb_vmod_backend_define(mrb_state *mrb)
-{
-    struct RClass *varnish, *backend;
-    varnish = mrb_class_get(mrb, "Varnish");
 
-    backend     = mrb_define_class(mrb, "Backend", varnish);
-    mrb_define_method(mrb, backend, "initialize", mrb_vmod_backend_init, MRB_ARGS_NONE() );
-}
-
-void mrb_vmod_resp_define(mrb_state *mrb)
-{
-    struct RClass *varnish, *responce;
-    varnish = mrb_class_get(mrb, "Varnish");
-
-    responce = mrb_define_class(mrb, "Resp", varnish);
-    mrb_define_method(mrb, responce, "initialize", mrb_vmod_resp_init, MRB_ARGS_NONE() );
-}
 
 void mrb_vmod_class_define(mrb_state *mrb)
 {
     struct RClass *varnish;
 
-    varnish     = mrb_define_class(mrb, "Varnish",  mrb->object_class);
+    varnish = mrb_define_class(mrb, "Varnish", mrb->object_class);
+    MRB_SET_INSTANCE_TT(varnish, MRB_TT_DATA);
+
     mrb_define_method(mrb, varnish, "initialize", mrb_vmod_init,            MRB_ARGS_NONE() );
+
     mrb_vmod_action_define(mrb);
     mrb_vmod_fetch_define(mrb);
     mrb_vmod_recv_define(mrb);
