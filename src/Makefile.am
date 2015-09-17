@@ -11,10 +11,15 @@ libvmod_mruby_la_SOURCES = \
 	vmod_mruby.c	\
 	vmod_class.h	\
 	vmod_class.c	\
+	vmod_varnish.c	\
 	vmod_deliver.c	\
 	vmod_fetch.c	\
 	vmod_recv.c	\
-	vmod_conf.c
+	vmod_conf.c	\
+	vmod_req.c	\
+	vmod_resp.c	\
+	vmod_bereq.c	\
+	vmod_beresp.c	
 
 nodist_libvmod_mruby_la_SOURCES = \
 	vcc_if.c \
