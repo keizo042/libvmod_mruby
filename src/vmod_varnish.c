@@ -1,14 +1,6 @@
-#include <stdio.h>
-
-#include "vrt.h"
-#include "vrt_obj.h"
+#include "vmod_varnish.h"
 
 
-#include "mruby.h"
-#include "mruby/data.h"
-#include "mruby/class.h"
-#include "mruby/variable.h"
-
-
-
-
+void mrb_vmod_varnish_define(mrb_state *mrb) 
+{
+}

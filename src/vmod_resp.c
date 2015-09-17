@@ -1,13 +1,4 @@
-#include <stdio.h>
-
-#include "vmod_class.h"
-
-#include "vrt.h"
-
-#include "mruby.h"
-#include "mruby/data.h"
-#include "mruby/class.h"
-#include "mruby/variable.h"
+#include "vmod_resp.h"
 
 static mrb_value mrb_vmod_resp_init(mrb_state *mrb, mrb_value self)
 {
