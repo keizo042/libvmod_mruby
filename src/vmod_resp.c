@@ -4,9 +4,13 @@
 
 #include "vrt.h"
 
+#include "mruby.h"
+#include "mruby/data.h"
+#include "mruby/class.h"
+#include "mruby/variable.h"
+
 static mrb_value mrb_vmod_resp_init(mrb_state *mrb, mrb_value self)
 {
-    VCL_HTTP resp  = VRT_r_resp( (struct vrt_ctx*)(mrb->ud) );
     return self;
 }
 
