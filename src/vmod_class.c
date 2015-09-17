@@ -1,15 +1,4 @@
-#include <stdio.h>
-
-#include "vrt.h"
-#include "vrt_obj.h"
-
-#include "mruby.h"
-#include "mruby/data.h"
-#include "mruby/class.h"
-#include "mruby/variable.h"
-
 #include "vmod_class.h"
-
 
 /*
  *
@@ -61,5 +50,6 @@ void mrb_vmod_class_define(mrb_state *mrb)
     mrb_vmod_deliver_define(mrb);
     mrb_vmod_backend_define(mrb);
     mrb_vmod_conf_define(mrb); // from vmod_conf.c
+    mrb_vmod_varnish_define(mrb);
 
 }
