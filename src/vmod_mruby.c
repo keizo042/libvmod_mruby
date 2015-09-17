@@ -19,6 +19,9 @@
 
 #include "vmod_class.h"
 
+
+#define VMOD_MRB_VERSION "0.0.1"
+
 static  void mrb_vmod_close(void*p)
 {
     mrb_close((mrb_state*)p);
@@ -47,6 +50,8 @@ init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 
 VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
+    CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+
     mrb_state *mrb= (mrb_state*)priv->priv;
     FILE *fp;
     //mrb_value v;
@@ -83,6 +88,8 @@ static mrb_value  mrb_code_exec(mrb_state *mrb, const char *code)
 
 VCL_STRING vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
+    CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+
     mrb_state *mrb = (mrb_state*)priv->priv;
     mrb_value v = mrb_code_exec(mrb, code);
     if(!mrb_string_p(v))
@@ -92,8 +99,11 @@ VCL_STRING vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 
     return RSTRING_PTR(v);
 }
+
 VCL_INT vmod_exec_integer(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
+    CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+
     mrb_state *mrb = (mrb_state*)priv->priv;
     mrb_value v = mrb_code_exec(mrb, code);
     if(!mrb_fixnum_p(v))
@@ -102,8 +112,11 @@ VCL_INT vmod_exec_integer(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
     }
     return mrb_fixnum(v);
 }
+
 VCL_VOID vmod_exec_void(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
+    CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+
     mrb_state *mrb = (mrb_state*)priv->priv;
      mrb_code_exec(mrb, code);
     return ;

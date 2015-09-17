@@ -78,6 +78,11 @@ static mrb_value mrb_vmod_lookup_init(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static mrb_value mrb_vmod_backend_init(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
 
 
 /*
@@ -148,6 +153,15 @@ void mrb_vmod_fetch_define(mrb_state *mrb)
     mrb_define_method(mrb, fetch,   "initialize", mrb_vmod_fetch_init,      MRB_ARGS_NONE() );
 }
 
+void mrb_vmod_backend_define(mrb_state *mrb)
+{
+    struct RClass *varnish, *backend;
+
+    varnish     = mrb_class_get(mrb, "Varnish");
+    backend     = mrb_define_class(mrb, "Backend",  varnish);
+
+    mrb_define_method(mrb, backend, "initialize", mrb_vmod_backend_init, MRB_ARGS_NONE() );
+}
 
 
 void mrb_vmod_class_define(mrb_state *mrb)
@@ -164,5 +178,6 @@ void mrb_vmod_class_define(mrb_state *mrb)
     mrb_vmod_recv_define(mrb);
     mrb_vmod_deliver_define(mrb);
     mrb_vmod_backend_define(mrb);
+    mrb_vmod_conf_define(mrb); // from vmod_conf.c
 
 }
