@@ -14,7 +14,6 @@
 #include "mruby/value.h"
 #include "mruby/string.h"
 
-#include "vmod_class.h"
 
 #include "mruby.h"
 

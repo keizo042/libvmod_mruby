@@ -3,7 +3,7 @@
 #
 # (vmodtool requires this format.)
 #
-
+#
 $Module mruby 3 Example VMOD
 
 DESCRIPTION
@@ -20,7 +20,7 @@ You can even have links and lists in here:
 
 The init-function declared next does not have documentation.
 
-$Init init_function
+#$Init init_function
 
 The different functions provided by the VMOD should also have their own
 embedded documentation. This section is for the hello() function.

@@ -1,5 +1,5 @@
-#ifndef VMOD_MRUBY_VARNISH_H
-#define VMOD_MRUBY_VARNISH_H
+#ifndef MRB_VMOD_VARNISH_H
+#define MRB_VMOD_VARNISH_H
 
 #include "vmod_mruby.h"
 #endif

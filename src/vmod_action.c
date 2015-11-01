@@ -25,6 +25,7 @@ static mrb_value mrb_vmod_lookup_init(mrb_state *mrb, mrb_value self)
 {
     return self;
 }
+
 void mrb_vmod_action_define(mrb_state *mrb)
 {
     struct RClass *varnish, *action, *pass, *lookup, *pipe, *miss;

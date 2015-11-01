@@ -10,13 +10,22 @@
 #include "mruby/variable.h"
 
 
-static mrb_value mrb_vmod_bereq_init(mrb_state *mrb, mrb_value self)
+static mrb_value mrb_vmod_beresp_init(mrb_state *mrb, mrb_value self)
 {
-
     return self;
 }
 
-void mrb_vmod_bereq_define(mrb_state *mrb)
+static mrb_value mrb_vmod_beresp_return(mrb_state *mrb, mrb_value self)
+{
+
+    mrb_get_args(mrb,"");
+
+    return mrb_nil_value();
+}
+
+
+
+void mrb_vmod_beresp_define(mrb_state *mrb)
 {
     struct RClass *varnish,  *beresp;
 
@@ -24,5 +33,6 @@ void mrb_vmod_bereq_define(mrb_state *mrb)
 
     beresp     = mrb_define_class(mrb, "Beresp",  varnish);
 
-    mrb_define_method(mrb, beresp, "initialize", mrb_vmod_bereq_init, MRB_ARGS_NONE() );
+    mrb_define_method(mrb, beresp, "initialize", mrb_vmod_beresp_init, MRB_ARGS_NONE() );
+    mrb_define_method(mrb, beresp, "return", mrb_vmod_beresp_return,  MRB_ARGS_REQ(1) );
 }

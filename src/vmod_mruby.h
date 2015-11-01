@@ -9,7 +9,6 @@
 
 #include "vcc_if.h"
 
-
 #include "mruby.h"
 #include "mruby/object.h"
 #include "mruby/class.h"
