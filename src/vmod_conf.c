@@ -1,22 +1,4 @@
-#include "vrt.h"
-#include "cache/cache.h"
-
-#include "vcc_if.h"
-
-
-#include "mruby.h"
-#include "mruby/object.h"
-#include "mruby/class.h"
-#include "mruby/compile.h"
-#include "mruby/numeric.h"
-#include "mruby/data.h"
-#include "mruby/error.h"
-#include "mruby/value.h"
-#include "mruby/string.h"
-
-
-#include "mruby.h"
-
+#include "vmod_conf.h"
 
 void vmod_conf_define(struct mrb_state *mrb)
 {
