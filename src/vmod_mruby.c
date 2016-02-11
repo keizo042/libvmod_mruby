@@ -33,7 +33,6 @@ VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 
     mrb_state *mrb= (mrb_state*)priv->priv;
     FILE *fp;
-    //mrb_value v;
 
     fp = fopen(path,"r");
     if(fp == NULL)

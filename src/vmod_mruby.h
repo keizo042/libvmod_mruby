@@ -19,9 +19,8 @@
 #include "mruby/value.h"
 #include "mruby/string.h"
 
-#include "vmod_class.h"
 
-#define VMOD_MRB_VERSION "0.0.1"
+#define VMOD_MRB_VERSION "0.1.0"
 
 
 #endif
