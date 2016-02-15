@@ -3,7 +3,7 @@
 
 #include "vmod_backend.h"
 #include "vmod_actions.h"
-#include "vmod_pram.h"
+#include "vmod_param.h"
 
 
 void mrb_vmod_define_core(mrb_state *mrb) 
