@@ -3,5 +3,6 @@
 
 #include "mruby.h"
 
+
 void mrb_vmod_define_core(mrb_state *mrb);
 #endif
