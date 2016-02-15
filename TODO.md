@@ -25,7 +25,10 @@ libvmod_mruby
 |VCL::req||
 |VCL::req::http||
 |VCL::req::http::upgrade||
+|VCL::req::http::set_cookie||
 |VCL::req.backend_hint||
+|VCL::bereq||
+|VCL::bereq::url||
 | VCL::obj.ttl ||
 | VCL::obj.grace ||
 | VCL::client ||
