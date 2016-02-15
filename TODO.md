@@ -5,7 +5,7 @@ libvmod_mruby
 ## implementation list
   
 ###  Class & method
-| class&method | implemented?  |   
+| class & method | implemented?  |   
 |:---------------------:|:-:| 
 | VCL           | |   
 | VCL.recv      | |
@@ -18,17 +18,36 @@ libvmod_mruby
 | VCL.synth     | |
 | VCL.init      | |
 | VCL.fini      | |
+| VCL.import      | |
+|VCL::resp||
+| VCL::beresp::grace ||
+| VCL::import      | |
+|VCL::req||
+|VCL::req::http||
+|VCL::req::http::upgrade||
+|VCL::req.backend_hint||
+| VCL::obj.ttl ||
+| VCL::obj.grace ||
+| VCL::client ||
+| VCL::client::ip ||
+| VCL::Std.healthy ||
 
-||
+
+|| |
 |:--:|:--:|
 | VCL::Backend | |
 | VCL::Backend.fetch ||
 | VCL::Backend.response ||
 | VCL::Backend.error ||
-|
+| VCL::Backend::Probe ||
+| VCL::Backend::Probe.url ||
+| VCL::Backend::Probe.timeout ||
+| VCL::Backend::Probe.interval ||
+| VCL::Backend::Probe.window ||
+| VCL::Backend::Probe.threshhold ||
 
 
-| class& method | implemented? |
+| class & method | implemented? |
 |:---------------------:|:-:| 
 | VCL::Actions           | |
 | VCL::Actions::Hash     | |
@@ -36,3 +55,7 @@ libvmod_mruby
 | VCL::Actions::Deliver  | |
 | VCL::Actions::Restart  | |
 | VCL::Actions::Retry    | |
+
+|||
+|:---------------------:|:-:| 
+|Varnish::PARAM||
