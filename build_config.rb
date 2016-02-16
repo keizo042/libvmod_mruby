@@ -9,6 +9,8 @@ MRuby::Build.new do |conf|
 
   # include the default GEMs
   conf.gembox 'default'
+  conf.gem :github => 'ksss/mruby-ostruct'
+
 
   # C compiler settings
   conf.cc do |cc|
