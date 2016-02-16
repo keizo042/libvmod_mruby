@@ -7,36 +7,36 @@ libvmod_mruby
 ###  Class & method
 | class & method | implemented?  |   
 |:---------------------:|:-:| 
-| VCL           | |   
-| VCL.recv      | |
-| VCL.pass      | |
-| VCL.hit       | |
-| VCL.miss      | |
-| VCL.hash      | |
-| VCL.purge     | |
-| VCL.deliver     | |
-| VCL.synth     | |
-| VCL.init      | |
-| VCL.fini      | |
-| VCL.import      | |
-|VCL::resp||
-| VCL::beresp::grace ||
-| VCL::import      | |
-|VCL::req||
-|VCL::req::http||
-|VCL::req::http::upgrade||
-|VCL::req::http::set_cookie||
-|VCL::req.backend_hint||
-|VCL::bereq||
-|VCL::bereq::url||
-| VCL::obj.ttl ||
-| VCL::obj.grace ||
-| VCL::client ||
-| VCL::client::ip ||
-| VCL::Std.healthy ||
+| VCL                   | X |   
+| VCL.recv                      | |
+| VCL.pass                      | |
+| VCL.hit                       | |
+| VCL.miss                      | |
+| VCL.hash                      | |
+| VCL.purge                     | |
+| VCL.deliver                   | |
+| VCL.synth                     | |
+| VCL.init                      | |
+| VCL.fini                      | |
+| VCL.import                    | |
+| VCL::resp                     ||
+| VCL::beresp::grace            ||
+| VCL::import                   ||
+| VCL::req                      ||
+| VCL::req::http                ||
+| VCL::req::http::upgrade       ||
+| VCL::req::http::set_cookie    ||
+| VCL::req.backend_hint         ||
+| VCL::bereq                    ||
+| VCL::bereq::url               ||
+| VCL::obj.ttl                  ||
+| VCL::obj.grace                ||
+| VCL::client                   ||
+| VCL::client::ip               ||
+| VCL::Std.healthy              ||
 
 
-|| |
+|class | implemented? |
 |:--:|:--:|
 | VCL::Backend | |
 | VCL::Backend.fetch ||
