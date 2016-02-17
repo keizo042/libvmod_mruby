@@ -14,7 +14,9 @@ libvmod_mruby_la_SOURCES = \
 	vmod_core.c	\
 	vmod_param.h	\
 	vmod_actions.h	\
-	vmod_backend.h
+	vmod_backend.h	\
+	vmod_utils.h	\
+	vmod_utils.c	
 
 nodist_libvmod_mruby_la_SOURCES = \
 	vcc_if.c \
