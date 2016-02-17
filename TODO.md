@@ -38,16 +38,16 @@ libvmod_mruby
 
 |class | implemented? |
 |:--:|:--:|
-| VCL::Backend | |
-| VCL::Backend.fetch ||
-| VCL::Backend.response ||
-| VCL::Backend.error ||
-| VCL::Backend::Probe ||
-| VCL::Backend::Probe.url ||
-| VCL::Backend::Probe.timeout ||
-| VCL::Backend::Probe.interval ||
-| VCL::Backend::Probe.window ||
-| VCL::Backend::Probe.threshhold ||
+| VCL::Backend                      | |
+| VCL::Backend.fetch                ||
+| VCL::Backend.response             ||
+| VCL::Backend.error                ||
+| VCL::Backend::Probe               ||
+| VCL::Backend::Probe.url           ||
+| VCL::Backend::Probe.timeout       ||
+| VCL::Backend::Probe.interval      ||
+| VCL::Backend::Probe.window        ||
+| VCL::Backend::Probe.threshhold    ||
 
 
 | class & method | implemented? |
@@ -59,6 +59,6 @@ libvmod_mruby
 | VCL::Actions::Restart  | |
 | VCL::Actions::Retry    | |
 
-|||
+|class & method ||
 |:---------------------:|:-:| 
 |Varnish::PARAM||
