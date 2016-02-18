@@ -1,7 +1,7 @@
 Source: libvmod-mruby
 Section: web
 Priority: extra
-Maintainer: Varnish Software <support@varnish-software.com>
+Maintainer: Kouichi Nakanishi <keizo.bookman@gmail.com>
 Build-Depends: debhelper (>= 7),
  build-essential,
  pkg-config,
@@ -9,9 +9,9 @@ Build-Depends: debhelper (>= 7),
  varnish (>= 4.0.2),
  libvarnishapi-dev (>= 4.0.2)
 Standards-Version: 3.8.1
-Vcs-Git: git://github.com/varnish/libvmod-mruby.git
+Vcs-Git: https://github.com/KeizoBookman/libvmod_mruby.git
 
 Package: libvmod-mruby
 Architecture: any
 Depends: varnish (>= 4.0.2), ${shlibs:Depends}, ${misc:Depends}, ${Varnish:ABI}
-Description: Example vmod for Varnish
+Description: mruby extension for VCL

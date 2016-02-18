@@ -1,4 +1,5 @@
 #include "vmod_mruby.h"
+#include "vmod_core.h"
 
 
 static  void mrb_vmod_close(void *p)
@@ -22,7 +23,7 @@ init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
     priv->priv = (void*)mrb;
     priv->free = (vmod_priv_free_f*)mrb_vmod_close;
 
-    mrb_vmod_class_define(mrb);
+    mrb_vmod_define_core(mrb);
 	return (0);
 }
 
@@ -33,7 +34,6 @@ VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 
     mrb_state *mrb= (mrb_state*)priv->priv;
     FILE *fp;
-    //mrb_value v;
 
     fp = fopen(path,"r");
     if(fp == NULL)

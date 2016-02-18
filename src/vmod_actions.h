@@ -1,0 +1,3 @@
+#ifndef VMOD_MRUBY_ACTIONS_H
+#define VMOD_MRUBY_ACTIONS_H
+#endif
