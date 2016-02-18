@@ -51,31 +51,19 @@ VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     return 0;
 }
 
-static mrb_value  mrb_code_exec(mrb_state *mrb, const char *code)
-{
-    mrb_value ret;
-    if(!mrb)
-    {
-        return mrb_nil_value();
-    }
-    ret =mrb_load_string(mrb,code);
-    mrb_close(mrb);
-
-    return ret;
-
-}
 
 VCL_STRING vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
-    mrb_state *mrb = (mrb_state*)priv->priv;
-    mrb_value v = mrb_code_exec(mrb, code);
+    mrb_state *mrb = mrb_open();
+    mrb_value v = mrb_load_string(mrb,code); 
     if(!mrb_string_p(v))
     {
         v = mrb_obj_as_string(mrb,v);
     }
 
+    mrb_close(mrb);
     return RSTRING_PTR(v);
 }
 
@@ -83,12 +71,13 @@ VCL_INT vmod_exec_integer(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
-    mrb_state *mrb = (mrb_state*)priv->priv;
-    mrb_value v = mrb_code_exec(mrb, code);
+    mrb_state *mrb = mrb_open();
+    mrb_value v = mrb_load_string(mrb, code);
     if(!mrb_fixnum_p(v))
     {
         return 0;
     }
+    mrb_close(mrb);
     return mrb_fixnum(v);
 }
 
@@ -96,8 +85,9 @@ VCL_VOID vmod_exec_void(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
-    mrb_state *mrb = (mrb_state*)priv->priv;
-     mrb_code_exec(mrb, code);
+    mrb_state *mrb = mrb_open();
+    mrb_load_string(mrb,code);
+    mrb_close(mrb);
     return ;
 
 }
