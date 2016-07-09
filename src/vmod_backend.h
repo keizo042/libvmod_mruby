@@ -1,3 +1,0 @@
-#if VMOD_MRUBY_BACKEND_H
-#define VMOD_MRUBY_BACKEND_H
-#endif

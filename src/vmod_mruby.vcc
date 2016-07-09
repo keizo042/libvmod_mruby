@@ -4,16 +4,13 @@
 # (vmodtool requires this format.)
 #
 #
-$Module mruby 3 Example VMOD
+$Module mruby  VMOD
 
 DESCRIPTION
 ===========
 
-This is the embedded documentation for the mruby VMOD. It should
-mention what the vmod is intended to do.
+This is the embedded documentation for the mruby VMOD. 
 
-It can span multiple lines and is written in RST format.
-You can even have links and lists in here:
 
 * https://github.com/varnish/libvmod-mruby/
 * https://www.varnish-cache.org/
@@ -27,8 +24,8 @@ embedded documentation. This section is for the hello() function.
 
 $Function INT conf_path(PRIV_VCL, STRING)
 
-$Function STRING exec(PRIV_VCL, STRING)
+$Function STRING exec_str(PRIV_VCL, STRING)
 
-$Function INT exec_integer(PRIV_VCL, STRING)
+$Function INT exec_int(PRIV_VCL, STRING)
 
-$Function VOID exec_void(PRIV_VCL, STRING)
+$Function VOID exec(PRIV_VCL, STRING)

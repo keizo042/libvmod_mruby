@@ -1,5 +1,4 @@
 #include "vmod_mruby.h"
-#include "vmod_core.h"
 
 
 static  void mrb_vmod_close(void *p)
@@ -52,7 +51,7 @@ VCL_INT vmod_conf_path(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 }
 
 
-VCL_STRING vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
+VCL_STRING vmod_exec_str(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
@@ -67,7 +66,7 @@ VCL_STRING vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
     return RSTRING_PTR(v);
 }
 
-VCL_INT vmod_exec_integer(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
+VCL_INT vmod_exec_int(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
@@ -81,7 +80,7 @@ VCL_INT vmod_exec_integer(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
     return mrb_fixnum(v);
 }
 
-VCL_VOID vmod_exec_void(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
+VCL_VOID vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
