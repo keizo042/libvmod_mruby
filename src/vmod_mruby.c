@@ -22,7 +22,6 @@ init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
     priv->priv = (void*)mrb;
     priv->free = (vmod_priv_free_f*)mrb_vmod_close;
 
-    mrb_vmod_define_core(mrb);
 	return (0);
 }
 
@@ -55,7 +54,7 @@ VCL_STRING vmod_exec_str(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
-    mrb_state *mrb = mrb_open();
+    mrb_state *mrb = (mrb_state*)priv->priv;
     mrb_value v = mrb_load_string(mrb,code); 
     if(!mrb_string_p(v))
     {
@@ -70,7 +69,7 @@ VCL_INT vmod_exec_int(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
-    mrb_state *mrb = mrb_open();
+    mrb_state *mrb = (mrb_state*)priv->priv;
     mrb_value v = mrb_load_string(mrb, code);
     if(!mrb_fixnum_p(v))
     {
@@ -84,7 +83,7 @@ VCL_VOID vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
-    mrb_state *mrb = mrb_open();
+    mrb_state *mrb = (mrb_state *)priv->priv;
     mrb_load_string(mrb,code);
     mrb_close(mrb);
     return ;

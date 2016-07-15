@@ -9,14 +9,7 @@ libvmod_mruby_la_LIBADD = $(LIBMRUBY)
 
 libvmod_mruby_la_SOURCES = \
 	vmod_mruby.h	\
-	vmod_mruby.c	\
-	vmod_core.h	\
-	vmod_core.c	\
-	vmod_param.h	\
-	vmod_actions.h	\
-	vmod_backend.h	\
-	vmod_utils.h	\
-	vmod_utils.c	
+	vmod_mruby.c	
 
 nodist_libvmod_mruby_la_SOURCES = \
 	vcc_if.c \
