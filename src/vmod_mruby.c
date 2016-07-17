@@ -2,40 +2,58 @@
 
 #include "pthread.h"
 
+static void make_key();
 
 typedef struct mrb_vmod_ctx_t {
     mrb_state *mrb;
 }mrb_vmod_ctx_t;
 
-static  void mrb_vmod_close(void *p)
+static mrb_vmod_ctx_t* mrb_vmod_ctx_new()
 {
-    mrb_close((mrb_state*)p);
+    mrb_vmod_ctx_t *ctx = malloc( sizeof(mrb_vmod_ctx_t) );
+    ctx->mrb = mrb_open();
+    return ctx;
+}
+
+static void mrb_vmod_ctx_close(void *p)
+{
+    mrb_vmod_ctx_t *ctx = (mrb_vmod_ctx_t*)p;
+    mrb_close(ctx->mrb);
+    free(ctx);
+}
+
+
+
+typedef void (*thread_desruct_t)(void*);
+
+static pthread_once_t th_once = PTHREAD_ONCE_INIT;
+
+static pthread_key_t th_key ;
+
+
+mrb_vmod_ctx_t *get_vmod_ctx()
+{
+    mrb_vmod_ctx_t *ctx =(mrb_vmod_ctx_t*)pthread_getspecific(th_key);
+    if(!ctx)
+    {
+        mrb_vmod_ctx_t *ctx = mrb_vmod_ctx_new();
+        pthread_setspecific(th_key, (void*)ctx);
+    }
+    return ctx;
 }
 
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 {
-    mrb_state *mrb = NULL;
-    if(priv->priv == NULL)
-    {
-        mrb = mrb_open();
-        if(!mrb)
-        {
-            return -1;
-        }
-    }
 
-    priv->free = (vmod_priv_free_f*)mrb_vmod_close;
+    pthread_once(&th_once, make_key);
 
 	return (0);
 }
 
-
-VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
+static void make_key()
 {
-    CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
-
-    return 0;
+    pthread_key_create(&th_key, (thread_desruct_t)mrb_vmod_ctx_close);
 }
 
 
@@ -77,4 +95,28 @@ VCL_VOID vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
     mrb_close(mrb);
     return ;
 
+}
+
+
+VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
+{
+    CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+    mrb_vmod_ctx_t *mrb = mrb_vmod_ctx_new();
+    if(priv->priv)
+    {
+        mrb_vmod_ctx_close((mrb_vmod_ctx_t*)priv->priv);
+        return -1;
+    }
+    priv->priv = (void*)mrb;
+
+    return 0;
+}
+
+VCL_INT vmod_done(VRT_CTX, struct vmod_priv *priv)
+{
+    if(priv->priv)
+    {
+        mrb_vmod_ctx_close(priv->priv);
+    }
+    return 0;
 }

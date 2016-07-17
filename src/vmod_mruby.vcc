@@ -22,7 +22,7 @@ The init-function declared next does not have documentation.
 The different functions provided by the VMOD should also have their own
 embedded documentation. This section is for the hello() function.
 
-$Function INT conf_path(PRIV_VCL, STRING)
+$Function INT init(PRIV_VCL, STRING)
 
 $Function STRING exec_str(PRIV_VCL, STRING)
 
