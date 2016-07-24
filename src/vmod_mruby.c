@@ -34,7 +34,7 @@ static pthread_key_t thread_vm_key ;
 
 mrb_vmod_ctx_t *get_vmod_ctx()
 {
-    return (mrb_vmod_ctx_t*)pthread_getspecific(thread_key);
+    return (mrb_vmod_ctx_t*)pthread_getspecific(thread_vm_key);
 }
 
 int
