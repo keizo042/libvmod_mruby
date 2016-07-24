@@ -1,4 +1,5 @@
 #include "vmod_mruby.h"
+#include "vrt_obj.h"
 
 #include <pthread.h>
 
@@ -29,6 +30,7 @@ static mrb_value mrb_vcl_beresp_init(mrb_state *mrb, mrb_value self)
 
 static mrb_value mrb_vcl_beresp_http_get(mrb_state *mrb, mrb_value self)
 {
+    return self;
 }
 
 void mrb_define_vcl_beresp_class(mrb_state *mrb)
@@ -42,22 +44,22 @@ void mrb_define_vcl_beresp_class(mrb_state *mrb)
 static mrb_value mrb_vcl_bereq_between_bytes_timeout(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
-    double timeout = VRT_r_bereq_bytes_timeout(ctx);
-    return mrb_float_value(timeout);
+    double timeout = VRT_r_bereq_between_bytes_timeout(ctx);
+    return mrb_float_value(mrb, timeout);
 }
 
 static mrb_value mrb_vcl_bereq_connect_timeout(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
     double timeout = VRT_r_bereq_connect_timeout(ctx);
-    return mrb_float_value(timeout);
+    return mrb_float_value(mrb, timeout);
 }
 
 static mrb_value mrb_vcl_bereq_first_byte_timeout(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
     double timeout = VRT_r_bereq_first_byte_timeout(ctx);
-    return mrb_float_value(timeout);
+    return mrb_float_value(mrb, timeout);
 }
 
 static mrb_value mrb_vcl_bresp_method(mrb_state *mrb, mrb_value self)
