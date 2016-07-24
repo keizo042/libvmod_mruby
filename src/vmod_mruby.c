@@ -26,34 +26,29 @@ static void mrb_vmod_ctx_close(void *p)
 
 typedef void (*thread_desruct_t)(void*);
 
-static pthread_once_t th_once = PTHREAD_ONCE_INIT;
+static pthread_once_t thread_once = PTHREAD_ONCE_INIT;
 
-static pthread_key_t th_key ;
+static pthread_key_t thread_vm_key ;
+
 
 
 mrb_vmod_ctx_t *get_vmod_ctx()
 {
-    mrb_vmod_ctx_t *ctx =(mrb_vmod_ctx_t*)pthread_getspecific(th_key);
-    if(!ctx)
-    {
-        mrb_vmod_ctx_t *ctx = mrb_vmod_ctx_new();
-        pthread_setspecific(th_key, (void*)ctx);
-    }
-    return ctx;
+    return (mrb_vmod_ctx_t*)pthread_getspecific(thread_key);
 }
 
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 {
 
-    pthread_once(&th_once, make_key);
+    pthread_once(&thread_once, make_key);
 
-	return (0);
+	return 0;
 }
 
 static void make_key()
 {
-    pthread_key_create(&th_key, (thread_desruct_t)mrb_vmod_ctx_close);
+    pthread_key_create(&thread_vm_key, (thread_desruct_t)mrb_vmod_ctx_close);
 }
 
 
