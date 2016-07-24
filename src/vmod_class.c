@@ -28,10 +28,6 @@ static mrb_value mrb_vcl_beresp_init(mrb_state *mrb, mrb_value self)
 
 
 
-static mrb_value mrb_vcl_beresp_http_get(mrb_state *mrb, mrb_value self)
-{
-    return self;
-}
 
 void mrb_define_vcl_beresp_class(mrb_state *mrb)
 {
@@ -41,6 +37,8 @@ void mrb_define_vcl_beresp_class(mrb_state *mrb)
     mrb_define_method(mrb, beresp, "initialize", mrb_vcl_beresp_init,   MRB_ARGS_NONE());
     return ;
 }
+
+
 static mrb_value mrb_vcl_bereq_between_bytes_timeout(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
@@ -62,7 +60,7 @@ static mrb_value mrb_vcl_bereq_first_byte_timeout(mrb_state *mrb, mrb_value self
     return mrb_float_value(mrb, timeout);
 }
 
-static mrb_value mrb_vcl_bresp_method(mrb_state *mrb, mrb_value self)
+static mrb_value mrb_vcl_bereq_method(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
     const char *name = VRT_r_bereq_method(ctx);
@@ -98,7 +96,7 @@ static mrb_value mrb_vcl_bereq_url(mrb_state *mrb, mrb_value self)
     return mrb_str_new_cstr(mrb, url);
 }
 
-static mrb_value mrb_vcl_beresp_xid(mrb_state *mrb, mrb_value self)
+static mrb_value mrb_vcl_bereq_xid(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
     const char *xid = VRT_r_bereq_xid(ctx);
@@ -106,11 +104,30 @@ static mrb_value mrb_vcl_beresp_xid(mrb_state *mrb, mrb_value self)
 
 }
 
+static mrb_value mrb_vcl_bereq_http_get(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    return self;
+}
+
 void mrb_define_vcl_bereq_class(mrb_state *mrb)
 {
     struct RClass *bereq;
     bereq = mrb_define_class_under_varnish(mrb, "Bereq");
+
+    mrb_define_method(mrb, bereq, "between_bytes_timeout",  mrb_vcl_bereq_between_bytes_timeout,    MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "connect_timeout",        mrb_vcl_bereq_connect_timeout,          MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "first_byte_timeout",     mrb_vcl_bereq_first_byte_timeout,       MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "proto",                  mrb_vcl_bereq_proto,                    MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "retries",                mrb_vcl_bereq_retries,                  MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "uncacheable",            mrb_vcl_bereq_uncacheable,              MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "url",                    mrb_vcl_bereq_url,                      MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "xid",                    mrb_vcl_bereq_xid,                      MRB_ARGS_NONE());
+    // maybe, http_get is hard to impl.
+    // mrb_define_method(mrb, bereq, "http_get",               mrb_vcl_bereq_http_get,                 MRB_ARGS_NONE());
+
     return ;
+
 }
 
 
