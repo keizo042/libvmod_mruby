@@ -286,7 +286,7 @@ void mrb_define_vcl_obj_class(mrb_state *mrb)
     obj = mrb_define_class_under_varnish(mrb, "Obj");
 }
 
-void mrb_vcl_class_define(mrb_state *mrb)
+void mrb_define_vcl_class(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_define_class(mrb, "Varnish", mrb->object_class);
     MRB_SET_INSTANCE_TT(mrb, MRB_TT_DATA);
