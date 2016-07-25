@@ -123,5 +123,5 @@ VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv)
 
 VCL_BOOL vmod_return(VRT_CTX, struct vmod_priv *priv)
 {
-    return;
+    return 1;
 }

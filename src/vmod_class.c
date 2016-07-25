@@ -393,8 +393,16 @@ void mrb_define_vcl_obj_class(mrb_state *mrb)
     mrb_define_method(mrb, obj, "response", mrb_vcl_obj_response, MRB_ARGS_NONE());
 }
 
+mrb_value mrb_vcl_return(mrb_state *mrb, mrb_value self)
+{
+    mrb_get_args(mrb,"");
+    return self;
+}
+
 void mrb_define_vcl_methods(mrb_state *mrb)
 {
+    struct RClass *varnish = mrb_class_get(mrb, "Varnish");
+    mrb_define_class_method(mrb, varnish, "return", mrb_vcl_return,  MRB_ARGS_REQ(1));
     return;
 }
 
