@@ -27,7 +27,7 @@ FUNCTIONS
 Prototype
         ::
 
-                conf_path(STRING PATH)
+                init(STRING PATH)
 Return value
 	INT
 Description
@@ -55,7 +55,7 @@ Description
 Example
         ::
 
-                set resp.http.hello = mruby.exec("'Hello World'");
+                set resp.http.hello = mruby.exec_str("'Hello World'");
 
 INSTALLATION
 ============
