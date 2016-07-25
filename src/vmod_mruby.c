@@ -115,3 +115,8 @@ VCL_INT vmod_done(VRT_CTX, struct vmod_priv *priv)
     }
     return 0;
 }
+
+VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv)
+{
+    return;
+}
