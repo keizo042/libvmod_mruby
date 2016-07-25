@@ -26,8 +26,80 @@ static mrb_value mrb_vcl_beresp_init(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static mrb_value mrb_vcl_beresp_backend_ip(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
 
+static mrb_value mrb_vcl_beresp_backend_name(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
 
+static mrb_value mrb_vcl_beresp_backend_port(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_do_esi(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_do_gunzip(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_do_gzip(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_do_stream(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_get(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_grace(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_keep(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_proto(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_response(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_status(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_storage(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_beresp_ttl(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
 
 void mrb_define_vcl_beresp_class(mrb_state *mrb)
 {
@@ -151,11 +223,67 @@ void mrb_define_vcl_server_class(mrb_state *mrb)
     server = mrb_define_class_under_varnish(mrb, "Server");
 }
 
+static mrb_value mrb_vcl_client_identity(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_client_ip(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_client_port(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_obj_grace(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_obj_hits(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_obj_keep(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_obj_lastuse(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_obj_proto(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_obj_response(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_obj_ttl(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
 void mrb_define_vcl_client_class(mrb_state *mrb)
 {
     struct RClass *client;
     client = mrb_define_class_under_varnish(mrb, "Client");
     return ;
+}
+
+void mrb_define_vcl_obj_class(mrb_state *mrb)
+{
+    struct RClass *obj;
+    obj = mrb_define_class_under_varnish(mrb, "Obj");
 }
 
 void mrb_vcl_class_define(mrb_state *mrb)
@@ -172,6 +300,7 @@ void mrb_vcl_class_define(mrb_state *mrb)
     mrb_define_vcl_req_class(mrb);
     mrb_define_vcl_server_class(mrb);
     mrb_define_vcl_client_class(mrb);
+    mrb_define_vcl_obj_class(mrb);
 
 }
 
