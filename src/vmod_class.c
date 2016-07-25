@@ -17,10 +17,6 @@ static inline struct RClass* mrb_define_class_under_varnish(mrb_state *mrb, char
 
 
 
-static mrb_value mrb_vcl_var(mrb_state *mrb, mrb_value self)
-{
-    return self;
-}
 
 static mrb_value mrb_vcl_beresp_init(mrb_state *mrb, mrb_value self)
 {
@@ -117,7 +113,22 @@ void mrb_define_vcl_beresp_class(mrb_state *mrb)
     struct RClass *beresp;
     beresp = mrb_define_class_under_varnish(mrb, "Beresp");
 
-    mrb_define_method(mrb, beresp, "initialize", mrb_vcl_beresp_init,   MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "initialize", mrb_vcl_beresp_init,   MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "backend_ip", mrb_vcl_beresp_backend_ip, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "backend_port", mrb_vcl_beresp_backend_port, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "backend_name", mrb_vcl_beresp_backend_name, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "do_esi", mrb_vcl_beresp_do_esi, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "do_gunzip", mrb_vcl_beresp_do_gunzip, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "do_gzip", mrb_vcl_beresp_do_gzip, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "do_stresam", mrb_vcl_beresp_do_stream, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "grace", mrb_vcl_beresp_grace, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "keep", mrb_vcl_beresp_keep, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "proto", mrb_vcl_beresp_proto, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "reason",mrb_vcl_beresp_reason, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "status", mrb_vcl_beresp_status, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "storage_hint", mrb_vcl_beresp_storage_hint, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "ttl", mrb_vcl_beresp_ttl, MRB_ARGS_NONE());
+
     return ;
 }
 
@@ -208,6 +219,7 @@ void mrb_define_vcl_bereq_class(mrb_state *mrb)
     mrb_define_method(mrb, bereq, "uncacheable",            mrb_vcl_bereq_uncacheable,              MRB_ARGS_NONE());
     mrb_define_method(mrb, bereq, "url",                    mrb_vcl_bereq_url,                      MRB_ARGS_NONE());
     mrb_define_method(mrb, bereq, "xid",                    mrb_vcl_bereq_xid,                      MRB_ARGS_NONE());
+    mrb_define_method(mrb, bereq, "method",                 mrb_vcl_bereq_method,                   MRB_ARGS_NONE());
     // maybe, http_get is hard to impl.
     // mrb_define_method(mrb, bereq, "http_get",               mrb_vcl_bereq_http_get,                 MRB_ARGS_NONE());
 
@@ -237,6 +249,10 @@ void mrb_define_vcl_resp_class(mrb_state *mrb)
 {
     struct RClass *resp;
     resp = mrb_define_class_under_varnish(mrb, "Resp");
+
+    mrb_define_method(mrb, resp, "reason", mrb_vcl_resp_reason, MRB_ARGS_NONE());
+    mrb_define_method(mrb, resp, "proto", mrb_vcl_resp_proto, MRB_ARGS_NONE());
+    mrb_define_method(mrb, resp, "", mrb_vcl_resp_status, MRB_ARGS_NONE());
     return ;
 }
 
@@ -285,6 +301,13 @@ void mrb_define_vcl_req_class(mrb_state *mrb)
 {
     struct RClass *req;
     req = mrb_define_class_under_varnish(mrb, "Req");
+
+    mrb_define_method(mrb, req, "can_gzip", mrb_vcl_req_can_gzip, MRB_ARGS_NONE());
+    mrb_define_method(mrb, req, "esi", mrb_vcl_req_esi, MRB_ARGS_NONE());
+    mrb_define_method(mrb, req, "esi_level", mrb_vcl_req_esi_level, MRB_ARGS_NONE());
+    mrb_define_method(mrb, req, "hash_always_miss", mrb_vcl_req_hash_always_miss, MRB_ARGS_NONE());
+    mrb_define_method(mrb, req, "hash_ignore_busy", mrb_vcl_req_hash_ignore_busy, MRB_ARGS_NONE());
+    mrb_define_method(mrb, req, "proto", mrb_vcl_req_proto, MRB_ARGS_NONE());
     return ;
 }
 
@@ -307,6 +330,17 @@ static mrb_value mrb_vcl_client_ip(mrb_state *mrb, mrb_value self)
 static mrb_value mrb_vcl_client_port(mrb_state *mrb, mrb_value self)
 {
     return self;
+}
+
+void mrb_define_vcl_client_class(mrb_state *mrb)
+{
+    struct RClass *client;
+    client = mrb_define_class_under_varnish(mrb, "Client");
+
+    mrb_define_method(mrb, client, "identity", mrb_vcl_client_identity, MRB_ARGS_NONE());
+    mrb_define_method(mrb, client, "ip", mrb_vcl_client_ip, MRB_ARGS_NONE());
+    mrb_define_method(mrb, client, "port", mrb_vcl_client_port, MRB_ARGS_NONE());
+    return ;
 }
 
 static mrb_value mrb_vcl_obj_grace(mrb_state *mrb, mrb_value self)
@@ -344,27 +378,34 @@ static mrb_value mrb_vcl_obj_ttl(mrb_state *mrb, mrb_value self)
     return self;
 }
 
-void mrb_define_vcl_client_class(mrb_state *mrb)
-{
-    struct RClass *client;
-    client = mrb_define_class_under_varnish(mrb, "Client");
-    return ;
-}
 
 void mrb_define_vcl_obj_class(mrb_state *mrb)
 {
     struct RClass *obj;
     obj = mrb_define_class_under_varnish(mrb, "Obj");
+
+    mrb_define_method(mrb, obj, "grace", mrb_vcl_obj_grace, MRB_ARGS_NONE());
+    mrb_define_method(mrb, obj, "hits", mrb_vcl_obj_hits, MRB_ARGS_NONE());
+    mrb_define_method(mrb, obj, "keep", mrb_vcl_obj_keep, MRB_ARGS_NONE());
+    mrb_define_method(mrb, obj, "lastuse", mrb_vcl_obj_lastuse, MRB_ARGS_NONE());
+    mrb_define_method(mrb, obj, "proto", mrb_vcl_obj_proto, MRB_ARGS_NONE());
+    mrb_define_method(mrb, obj, "ttl", mrb_vcl_obj_ttl, MRB_ARGS_NONE());
+    mrb_define_method(mrb, obj, "response", mrb_vcl_obj_response, MRB_ARGS_NONE());
+}
+
+void mrb_define_vcl_methods(mrb_state *mrb)
+{
+    return;
 }
 
 void mrb_define_vcl_class(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_define_class(mrb, "Varnish", mrb->object_class);
-    MRB_SET_INSTANCE_TT(mrb, MRB_TT_DATA);
+    MRB_SET_INSTANCE_TT(varnish, MRB_TT_DATA);
 
 
-    mrb_define_class_method(mrb, varnish, "var", mrb_vcl_var,    MRB_ARGS_REQ(1));
 
+    mrb_define_vcl_methods(mrb);
     mrb_define_vcl_beresp_class(mrb);
     mrb_define_vcl_bereq_class(mrb);
     mrb_define_vcl_resp_class(mrb);
