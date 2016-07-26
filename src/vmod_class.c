@@ -111,7 +111,7 @@ static mrb_value mrb_vcl_beresp_ttl(mrb_state *mrb, mrb_value self)
 static mrb_value mrb_vcl_beresp_was_304(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
-    return mrb_fixnum_value(mrb, VRT_r_beresp_was_304(ctx));
+    return mrb_fixnum_value( VRT_r_beresp_was_304(ctx));
 
 }
 
@@ -134,6 +134,7 @@ void mrb_define_vcl_beresp_class(mrb_state *mrb)
     mrb_define_method(mrb, beresp,  "reason",mrb_vcl_beresp_reason, MRB_ARGS_NONE());
     mrb_define_method(mrb, beresp,  "status", mrb_vcl_beresp_status, MRB_ARGS_NONE());
     mrb_define_method(mrb, beresp,  "storage_hint", mrb_vcl_beresp_storage_hint, MRB_ARGS_NONE());
+    mrb_define_method(mrb, beresp,  "ttl", mrb_vcl_beresp_ttl, MRB_ARGS_NONE());
     mrb_define_method(mrb, beresp,  "was_304", mrb_vcl_beresp_was_304, MRB_ARGS_NONE());
 
     return ;
