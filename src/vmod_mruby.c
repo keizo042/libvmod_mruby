@@ -102,6 +102,7 @@ VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
         mrb_vmod_ctx_close((mrb_vmod_ctx_t*)priv->priv);
         return -1;
     }
+    mrb->mrb->ud = (void*)ctx;
     priv->priv = (void*)mrb;
 
     return 0;
@@ -118,10 +119,7 @@ VCL_INT vmod_done(VRT_CTX, struct vmod_priv *priv)
 
 VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv)
 {
+
     return;
 }
 
-VCL_BOOL vmod_return(VRT_CTX, struct vmod_priv *priv)
-{
-    return 1;
-}
