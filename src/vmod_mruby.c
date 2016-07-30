@@ -4,20 +4,20 @@
 
 static void make_key();
 
-typedef struct mrb_vmod_ctx_t {
+typedef struct mrb_vcl_ctx_t {
     mrb_state *mrb;
-}mrb_vmod_ctx_t;
+}mrb_vcl_ctx_t;
 
-static mrb_vmod_ctx_t* mrb_vmod_ctx_new()
+static mrb_vcl_ctx_t* mrb_vcl_ctx_new()
 {
-    mrb_vmod_ctx_t *ctx = malloc( sizeof(mrb_vmod_ctx_t) );
+    mrb_vcl_ctx_t *ctx = malloc( sizeof(mrb_vcl_ctx_t) );
     ctx->mrb = mrb_open();
     return ctx;
 }
 
-static void mrb_vmod_ctx_close(void *p)
+static void mrb_vcl_ctx_close(void *p)
 {
-    mrb_vmod_ctx_t *ctx = (mrb_vmod_ctx_t*)p;
+    mrb_vcl_ctx_t *ctx = (mrb_vcl_ctx_t*)p;
     mrb_close(ctx->mrb);
     free(ctx);
 }
@@ -27,14 +27,13 @@ static void mrb_vmod_ctx_close(void *p)
 typedef void (*thread_desruct_t)(void*);
 
 static pthread_once_t thread_once = PTHREAD_ONCE_INIT;
-
-static pthread_key_t thread_vm_key ;
-
+pthread_key_t thread_vm_key ;
 
 
-mrb_vmod_ctx_t *get_vmod_ctx()
+
+mrb_vcl_ctx_t *get_vmod_ctx()
 {
-    return (mrb_vmod_ctx_t*)pthread_getspecific(thread_vm_key);
+    return (mrb_vcl_ctx_t*)pthread_getspecific(thread_vm_key);
 }
 
 int
@@ -48,7 +47,7 @@ init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 
 static void make_key()
 {
-    pthread_key_create(&thread_vm_key, (thread_desruct_t)mrb_vmod_ctx_close);
+    pthread_key_create(&thread_vm_key, (thread_desruct_t)mrb_vcl_ctx_close);
 }
 
 
@@ -96,30 +95,35 @@ VCL_VOID vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
-    mrb_vmod_ctx_t *mrb = mrb_vmod_ctx_new();
-    if(priv->priv)
+    mrb_vcl_ctx_t  *mrb = (mrb_vcl_ctx_t*)pthread_getspecific(thread_vm_key);
+    if(!mrb)
     {
-        mrb_vmod_ctx_close((mrb_vmod_ctx_t*)priv->priv);
+        mrb = mrb_vcl_ctx_new();
+        pthread_setspecific(thread_vm_key, (void*)mrb);
+    }
+
+    return 0;
+}
+
+
+VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
+{
+    CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+    FILE *fp;
+    mrb_vcl_ctx_t *mrb = (mrb_vcl_ctx_t*)pthread_getspecific(thread_vm_key);
+    if(!mrb)
+    {
+        mrb = mrb_vcl_ctx_new();
+        pthread_setspecific(thread_vm_key, (void*)mrb);
+    }
+
+    fp = fopen(path, "r");
+    if(!fp)
+    {
         return -1;
     }
-    mrb->mrb->ud = (void*)ctx;
-    priv->priv = (void*)mrb;
+    mrb_load_file(mrb->mrb ,fp);
 
     return 0;
-}
-
-VCL_INT vmod_done(VRT_CTX, struct vmod_priv *priv)
-{
-    if(priv->priv)
-    {
-        mrb_vmod_ctx_close(priv->priv);
-    }
-    return 0;
-}
-
-VCL_BOOL vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
-{
-
-    return 1;
 }
 

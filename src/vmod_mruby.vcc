@@ -30,4 +30,4 @@ $Function INT exec_int(PRIV_VCL, STRING)
 
 $Function VOID exec(PRIV_VCL, STRING)
 
-$Function BOOL handler(PRIV_VCL, STRING)
+$Function INT handler(PRIV_VCL, STRING)
