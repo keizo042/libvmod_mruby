@@ -93,7 +93,7 @@ VCL_VOID vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 }
 
 
-VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
+VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
     mrb_vmod_ctx_t *mrb = mrb_vmod_ctx_new();
@@ -117,9 +117,9 @@ VCL_INT vmod_done(VRT_CTX, struct vmod_priv *priv)
     return 0;
 }
 
-VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv)
+VCL_BOOL vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
 
-    return;
+    return 1;
 }
 
