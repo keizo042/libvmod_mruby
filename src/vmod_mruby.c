@@ -29,6 +29,7 @@ typedef void (*thread_desruct_t)(void*);
 
 static pthread_once_t thread_once = PTHREAD_ONCE_INIT;
 pthread_key_t thread_vm_key ;
+pthread_key_t thread_req_key;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
@@ -49,6 +50,7 @@ init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 static void make_key()
 {
     pthread_key_create(&thread_vm_key, (thread_desruct_t)mrb_vcl_ctx_close);
+    pthread_key_create(&thread_req_key, (thread_desruct_t)mrb_vcl_ctx_close);
 }
 
 

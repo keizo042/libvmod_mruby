@@ -20,6 +20,7 @@
 #include "mruby/string.h"
 
 
+#include "debug.h"
 #define VMOD_MRB_VERSION "0.1.0"
 
 
