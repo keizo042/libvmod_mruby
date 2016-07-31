@@ -11,16 +11,9 @@ DESCRIPTION
 
 This is the embedded documentation for the mruby VMOD. 
 
-
 * https://github.com/varnish/libvmod-mruby/
-* https://www.varnish-cache.org/
 
-The init-function declared next does not have documentation.
-
-#$Init init_function
-
-The different functions provided by the VMOD should also have their own
-embedded documentation. This section is for the hello() function.
+$Event init_function
 
 $Function INT init(PRIV_VCL)
 
