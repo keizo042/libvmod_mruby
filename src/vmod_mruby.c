@@ -1,4 +1,5 @@
 #include "vmod_mruby.h"
+#include "vmod_class.h"
 
 #include "pthread.h"
 
@@ -28,10 +29,10 @@ typedef void (*thread_desruct_t)(void*);
 
 static pthread_once_t thread_once = PTHREAD_ONCE_INIT;
 pthread_key_t thread_vm_key ;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
-
-mrb_vcl_ctx_t *get_vmod_ctx()
+mrb_vcl_ctx_t *get_vcl_ctx()
 {
     return (mrb_vcl_ctx_t*)pthread_getspecific(thread_vm_key);
 }
@@ -95,11 +96,14 @@ VCL_VOID vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
-    mrb_vcl_ctx_t  *mrb = (mrb_vcl_ctx_t*)pthread_getspecific(thread_vm_key);
+    mrb_vcl_ctx_t  *mrb = mrb_vcl_ctx_new();
     if(!mrb)
     {
+        pthread_mutex_lock(&mutex);
         mrb = mrb_vcl_ctx_new();
-        pthread_setspecific(thread_vm_key, (void*)mrb);
+        mrb_define_vcl_class(mrb->mrb);
+        pthread_mutex_unlock(&mutex);
+        pthread_setspecific(thread_vm_key, mrb);
     }
 
     return 0;
@@ -110,19 +114,24 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
     FILE *fp;
-    mrb_vcl_ctx_t *mrb = (mrb_vcl_ctx_t*)pthread_getspecific(thread_vm_key);
+    mrb_vcl_ctx_t *mrb = get_vcl_ctx();
     if(!mrb)
     {
+        pthread_mutex_lock(&mutex);
         mrb = mrb_vcl_ctx_new();
-        pthread_setspecific(thread_vm_key, (void*)mrb);
+        pthread_mutex_unlock(&mutex);
+        pthread_setspecific(thread_vm_key, mrb);
     }
 
     fp = fopen(path, "r");
-    if(!fp)
+    if(NULL == fp )
     {
         return -1;
     }
+
+    pthread_mutex_lock(&mutex);
     mrb_load_file(mrb->mrb ,fp);
+    pthread_mutex_unlock(&mutex);
 
     return 0;
 }
