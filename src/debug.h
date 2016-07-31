@@ -4,7 +4,7 @@
 #define DEBUG_START     \
     FILE *debug_file_pointer; \
     do {                \
-        fp = fopen("/var/log/varnish/debug.log");   \
+        fp = fopen("/var/log/varnish/debug.log","w");   \
         if(fp == NULL)                              \
         {               \
             return -1;  \
