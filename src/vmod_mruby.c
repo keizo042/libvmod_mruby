@@ -135,6 +135,7 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     mrb_load_file(mrb->mrb ,fp);
     pthread_mutex_unlock(&mutex);
 
+    fclose(fp);
     return 0;
 }
 
