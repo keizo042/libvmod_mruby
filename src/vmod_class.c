@@ -231,6 +231,7 @@ void mrb_define_vcl_bereq_class(mrb_state *mrb)
     // maybe, http_get is hard to impl.
     // mrb_define_method(mrb, bereq, "http_get",               mrb_vcl_bereq_http_get,                 MRB_ARGS_NONE());
 
+
     return ;
 
 }
