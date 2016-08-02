@@ -7,11 +7,13 @@ LIBMRUBY = $(srcdir)/mruby/build/host/lib/libmruby.a
 libvmod_mruby_la_LDFLAGS = -module -export-dynamic -avoid-version -shared -Imruby -Imruby/include -lm
 libvmod_mruby_la_LIBADD = $(LIBMRUBY)
 
-libvmod_mruby_la_SOURCES = \
-	vmod_mruby.h	\
-	vmod_mruby.c	\
-	vmod_class.h	\
-	vmod_class.c	\
+libvmod_mruby_la_SOURCES =	\
+	vmod_mruby.h		\
+	vmod_mruby.c		\
+	vmod_class.h		\
+	vmod_class.c		\
+	vmod_mruby_http.c	\
+	vmod_mruby_http.h	\
 	debug.h
 
 nodist_libvmod_mruby_la_SOURCES = \
