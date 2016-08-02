@@ -125,7 +125,7 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
         pthread_mutex_unlock(&mutex);
         pthread_setspecific(thread_vm_key, mrb);
     }
-
+    mrb->mrb-ud = (void*)ctx;
     fp = fopen(path, "r");
     if(NULL == fp )
     {
