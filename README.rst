@@ -9,6 +9,7 @@ Varnish Mruby Module
 :Date: 2015-06-17
 :Version: 1.0
 :Manual section: 3
+:LICENSE: MITL
 
 SYNOPSIS
 ========
