@@ -1,4 +1,5 @@
 #include "vmod_mruby.h"
+#include "vmod_class.h"
 
 mrb_value mrb_vcl_http_host(mrb_state *mrb, mrb_value self)
 {
@@ -25,9 +26,17 @@ mrb_value mrb_vcl_http_user_agent(mrb_state *mrb, mrb_value self)
     return self;
 }
 
-mrb_value mrb_vcl_http_gethdr(mrb_state *mrb, _mrb_value self)
+mrb_value mrb_vcl_http_gethdr(mrb_state *mrb, mrb_value self)
 {
-    return self;
+    TMP_VRT_CTX;
+    char *args = NULL;
+    struct gethdr_s hdr = {.where = HDR_RESP, .what = args };
+    mrb_get_args(mrb, "v", args);
+    if( VRT_GetHdr(ctx, &hdr )!= 0)
+    {
+        return mrb_true_value();
+    }
+        return mrb_false_value();
 }
 
 mrb_value mrb_vcl_http_sethdr(mrb_state *mrb, mrb_value self)
