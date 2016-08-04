@@ -235,6 +235,21 @@ void mrb_define_vcl_bereq_class(mrb_state *mrb)
 
 }
 
+static mrb_value mrb_vcl_resp_is_streaming(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    VCL_BOOL v = VRT_r_resp_is_streaming(ctx);
+    if(0 == v)
+    {
+        return mrb_false_value();
+    }else{
+        return mrb_true_value();
+    }
+
+
+
+}
+
 static mrb_value  mrb_vcl_resp_proto(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
@@ -269,7 +284,14 @@ void mrb_define_vcl_resp_class(mrb_state *mrb)
 static mrb_value mrb_vcl_req_can_gzip(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
-    return mrb_float_value(mrb, VRT_r_req_can_gzip(ctx));
+    VCL_BOOL v = VRT_r_req_can_gzip(ctx);
+    if(0 == v)
+    {
+    return mrb_true_value();
+    }else
+    {
+        return mrb_false_value();
+    }
 }
 
 static mrb_value mrb_vcl_req_esi(mrb_state *mrb, mrb_value self)
