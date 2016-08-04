@@ -320,10 +320,33 @@ void mrb_define_vcl_req_class(mrb_state *mrb)
     return ;
 }
 
+mrb_value mrb_vcl_varnish_server_hostname(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    return mrb_str_new_cstr(mrb, VRT_r_server_hostname(ctx));
+}
+
+mrb_value mrb_vcl_varnish_server_identity(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    return mrb_str_new_cstr(mrb, VRT_r_server_identity(ctx));
+}
+
+mrb_value mrb_vcl_varnish_server_ip(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    VCL_IP ip = VRT_r_server_ip(ctx);
+    return mrb_str_new_cstr(mrb, VRT_IP_string(ctx,ip));
+}
+
 void mrb_define_vcl_server_class(mrb_state *mrb)
 {
     struct RClass *server;
     server = mrb_define_class_under_varnish(mrb, "Server");
+    mrb_define_method(mrb, server, "hostname", mrb_vcl_varnish_server_hostname, MRB_ARGS_NONE());
+    mrb_define_method(mrb, server, "identity", mrb_vcl_varnish_server_identity, MRB_ARGS_NONE());
+    mrb_define_method(mrb, server, "ip", mrb_vcl_varnish_server_ip, MRB_ARGS_NONE());
+
 }
 
 static mrb_value mrb_vcl_client_identity(mrb_state *mrb, mrb_value self)
@@ -445,11 +468,23 @@ mrb_value mrb_vcl_return(mrb_state *mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+mrb_value mrb_vcl_synth(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    mrb_value word;
+    mrb_int code;
+    mrb_get_args(mrb, "io", &code, &word);
+    VRT_synth(ctx,(unsigned)code, RSTRING_PTR(word));
+    return mrb_nil_value();
+}
+
 void mrb_define_vcl_methods(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_class_get(mrb, "Varnish");
     mrb_define_class_method(mrb, varnish, "return", mrb_vcl_return,  MRB_ARGS_REQ(1));
     mrb_define_method(mrb, varnish, "initialize", mrb_vcl_varnish_init, MRB_ARGS_NONE());
+    mrb_define_method(mrb, varnish, "return", mrb_vcl_return, MRB_ARGS_NONE());
+    mrb_define_method(mrb, varnish, "synth", mrb_vcl_synth, MRB_ARGS_REQ(1));
     return;
 }
 
