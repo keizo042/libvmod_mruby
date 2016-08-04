@@ -188,7 +188,13 @@ static mrb_value mrb_vcl_bereq_uncacheable(mrb_state *mrb, mrb_value self)
     TMP_VRT_CTX;
     int val;
     val = VRT_r_bereq_uncacheable(ctx);
-    return mrb_fixnum_value(val);
+    if(0 == val)
+    {
+        return mrb_true_value();
+    }else{
+        return mrb_false_value();
+
+    }
 }
 
 static mrb_value mrb_vcl_bereq_url(mrb_state *mrb, mrb_value self)
@@ -206,13 +212,6 @@ static mrb_value mrb_vcl_bereq_xid(mrb_state *mrb, mrb_value self)
 
 }
 
-/*
-static mrb_value mrb_vcl_bereq_http_get(mrb_state *mrb, mrb_value self)
-{
-    TMP_VRT_CTX;
-    return self;
-}
-*/
 
 void mrb_define_vcl_bereq_class(mrb_state *mrb)
 {
