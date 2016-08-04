@@ -1,10 +1,10 @@
 #include "vmod_mruby.h"
+#include "vmod_class.h"
 #include "vrt_obj.h"
 #include "vsa.h"
 
 #include <pthread.h>
 
-#define TMP_VRT_CTX  const struct vrt_ctx *ctx = (struct vrt_ctx*)mrb->ud;
 
 static inline struct RClass* mrb_define_class_under_varnish(mrb_state *mrb, char *name)
 {
