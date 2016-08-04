@@ -116,7 +116,6 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
     FILE *fp;
-    mrb_value v;
     mrb_vcl_ctx_t *mrb = get_vcl_ctx();
     if(!mrb)
     {
@@ -133,7 +132,7 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     }
 
     pthread_mutex_lock(&mutex);
-    v = mrb_load_file(mrb->mrb ,fp);
+    mrb_load_file(mrb->mrb ,fp);
     pthread_mutex_unlock(&mutex);
 
     fclose(fp);
