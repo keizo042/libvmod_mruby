@@ -5,4 +5,8 @@
 #define TMP_VRT_CTX  const struct vrt_ctx *ctx = (struct vrt_ctx*)mrb->ud;
 
 void mrb_define_vcl_class(mrb_state *mrb);
+
+typedef struct mrb_vcl_internal_state{
+    unsigned state;
+}mrb_vcl_internal_state;
 #endif

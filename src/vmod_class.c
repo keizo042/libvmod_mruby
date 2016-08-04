@@ -402,6 +402,39 @@ void mrb_define_vcl_obj_class(mrb_state *mrb)
     mrb_define_method(mrb, obj, "response", mrb_vcl_obj_response, MRB_ARGS_NONE());
 }
 
+
+
+static mrb_vcl_internal_state *mrb_vcl_internal_state_init(mrb_state *mrb)
+{
+    return (mrb_vcl_internal_state*)mrb_malloc(mrb, sizeof(mrb_vcl_internal_state) );
+}
+
+static void mrb_vcl_varnish_state_free(mrb_state *mrb, void *p)
+{
+    mrb_free(mrb, p);
+
+}
+
+
+static const mrb_data_type mrb_vcl_varnish_data_type = {
+    "mrb_vcl_internal_state", mrb_vcl_varnish_state_free
+};
+
+mrb_value mrb_vcl_varnish_init(mrb_state *mrb, mrb_value self)
+{
+    mrb_vcl_internal_state *state = DATA_PTR(self);
+    if(state)
+    {
+        mrb_free(mrb, state);
+    }
+    state = mrb_vcl_internal_state_init(mrb);
+    mrb_data_init(self, state, &mrb_vcl_varnish_data_type);
+
+        
+
+    return self;
+}
+
 mrb_value mrb_vcl_return(mrb_state *mrb, mrb_value self)
 {
     mrb_value klass;
@@ -416,6 +449,7 @@ void mrb_define_vcl_methods(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_class_get(mrb, "Varnish");
     mrb_define_class_method(mrb, varnish, "return", mrb_vcl_return,  MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, varnish, "initialize", mrb_vcl_varnish_init, MRB_ARGS_NONE());
     return;
 }
 
@@ -423,6 +457,7 @@ void mrb_define_vcl_class(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_define_class(mrb, "Varnish", mrb->object_class);
     MRB_SET_INSTANCE_TT(varnish, MRB_TT_DATA);
+
 
 
 
