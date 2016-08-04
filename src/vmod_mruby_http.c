@@ -25,6 +25,15 @@ mrb_value mrb_vcl_http_user_agent(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+mrb_value mrb_vcl_http_gethdr(mrb_state *mrb, _mrb_value self)
+{
+    return self;
+}
+
+mrb_value mrb_vcl_http_sethdr(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
 void mrb_define_vcl_http_class(mrb_state *mrb)
 {
     struct RClass  *http, *varnish;
