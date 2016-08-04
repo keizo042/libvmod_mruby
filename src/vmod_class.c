@@ -273,6 +273,7 @@ void mrb_define_vcl_resp_class(mrb_state *mrb)
     struct RClass *resp;
     resp = mrb_define_class_under_varnish(mrb, "Resp");
 
+    mrb_define_method(mrb, resp, "is_streaming", mrb_vcl_resp_is_streaming, MRB_ARGS_NONE());
     mrb_define_method(mrb, resp, "reason", mrb_vcl_resp_reason, MRB_ARGS_NONE());
     mrb_define_method(mrb, resp, "proto", mrb_vcl_resp_proto, MRB_ARGS_NONE());
     mrb_define_method(mrb, resp, "status", mrb_vcl_resp_status, MRB_ARGS_NONE());
