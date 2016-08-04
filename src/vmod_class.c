@@ -404,8 +404,12 @@ void mrb_define_vcl_obj_class(mrb_state *mrb)
 
 mrb_value mrb_vcl_return(mrb_state *mrb, mrb_value self)
 {
-    mrb_get_args(mrb,"");
-    return self;
+    mrb_value klass;
+    TMP_VRT_CTX;
+    unsigned hand  = 0;
+    mrb_get_args(mrb,"o",&klass);
+    VRT_handling(ctx, hand);
+    return mrb_nil_value();
 }
 
 void mrb_define_vcl_methods(mrb_state *mrb)
