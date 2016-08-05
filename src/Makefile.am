@@ -14,6 +14,16 @@ libvmod_mruby_la_SOURCES =	\
 	vmod_class.c		\
 	vmod_mruby_http.c	\
 	vmod_mruby_http.h	\
+	vmod_mruby_client.c	\
+	vmod_mruby_client.h	\
+	vmod_mruby_req.c	\
+	vmod_mruby_req.h	\
+	vmod_mruby_resp.c	\
+	vmod_mruby_resp.h	\
+	vmod_mruby_bereq.c	\
+	vmod_mruby_bereq.h	\
+	vmod_mruby_beresp.c	\
+	vmod_mruby_beresp.h	\
 	debug.h
 
 nodist_libvmod_mruby_la_SOURCES = \
