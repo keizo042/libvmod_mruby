@@ -16,11 +16,6 @@ static mrb_value mrb_vcl_client_ip(mrb_state *mrb, mrb_value self)
     return mrb_str_new_cstr(mrb, VRT_IP_string(ctx, ip));
 }
 
-static mrb_value mrb_vcl_client_port(mrb_state *mrb, mrb_value self)
-{
-    TMP_VRT_CTX;
-    return self;
-}
 
 void mrb_define_vcl_client_class(mrb_state *mrb)
 {
@@ -29,6 +24,5 @@ void mrb_define_vcl_client_class(mrb_state *mrb)
 
     mrb_define_method(mrb, client, "identity", mrb_vcl_client_identity, MRB_ARGS_NONE());
     mrb_define_method(mrb, client, "ip", mrb_vcl_client_ip, MRB_ARGS_NONE());
-    mrb_define_method(mrb, client, "port", mrb_vcl_client_port, MRB_ARGS_NONE());
     return ;
 }
