@@ -1,17 +1,17 @@
 
-mrb_value mrb_vcl_varnish_server_hostname(mrb_state *mrb, mrb_value self)
+static mrb_value mrb_vcl_varnish_server_hostname(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
     return mrb_str_new_cstr(mrb, VRT_r_server_hostname(ctx));
 }
 
-mrb_value mrb_vcl_varnish_server_identity(mrb_state *mrb, mrb_value self)
+static mrb_value mrb_vcl_varnish_server_identity(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
     return mrb_str_new_cstr(mrb, VRT_r_server_identity(ctx));
 }
 
-mrb_value mrb_vcl_varnish_server_ip(mrb_state *mrb, mrb_value self)
+static mrb_value mrb_vcl_varnish_server_ip(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
     VCL_IP ip = VRT_r_server_ip(ctx);

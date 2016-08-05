@@ -87,8 +87,6 @@ void mrb_define_vcl_bereq_class(mrb_state *mrb)
     mrb_define_method(mrb, bereq, "url",                    mrb_vcl_bereq_url,                      MRB_ARGS_NONE());
     mrb_define_method(mrb, bereq, "xid",                    mrb_vcl_bereq_xid,                      MRB_ARGS_NONE());
     mrb_define_method(mrb, bereq, "method",                 mrb_vcl_bereq_method,                   MRB_ARGS_NONE());
-    // maybe, http_get is hard to impl.
-    // mrb_define_method(mrb, bereq, "http_get",               mrb_vcl_bereq_http_get,                 MRB_ARGS_NONE());
 
 
     return ;
