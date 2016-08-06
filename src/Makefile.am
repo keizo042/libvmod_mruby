@@ -16,6 +16,8 @@ libvmod_mruby_la_SOURCES =	\
 	vmod_mruby_http.h	\
 	vmod_mruby_client.c	\
 	vmod_mruby_client.h	\
+	vmod_mruby_server.c	\
+	vmod_mruby_server.h	\
 	vmod_mruby_req.c	\
 	vmod_mruby_req.h	\
 	vmod_mruby_resp.c	\
