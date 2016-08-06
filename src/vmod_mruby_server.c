@@ -1,4 +1,6 @@
-
+#include "vmod_mruby.h"
+#include "vmod_class.h"
+#include "vmod_mruby_server.h"
 static mrb_value mrb_vcl_varnish_server_hostname(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
