@@ -26,6 +26,8 @@ libvmod_mruby_la_SOURCES =	\
 	vmod_mruby_bereq.h	\
 	vmod_mruby_beresp.c	\
 	vmod_mruby_beresp.h	\
+	vmod_mruby_obj.c	\
+	vmod_mruby_obj.h	\
 	vmod_mruby_acl.c	\
 	vmod_mruby_acl.h	\
 	debug.h

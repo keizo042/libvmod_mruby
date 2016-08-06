@@ -1,3 +1,6 @@
+#include "vmod_mruby.h"
+#include "vmod_class.h"
+#include "vmod_mruby_obj.h"
 
 static mrb_value mrb_vcl_obj_age(mrb_state *mrb, mrb_value self)
 {
