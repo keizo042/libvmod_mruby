@@ -9,12 +9,23 @@ mrb_value mrb_vcl_acl_init(mrb_state *mrb, mrb_value self)
 
 mrb_value mrb_vcl_acl_log(mrb_state *mrb, mrb_value self)
 {
-    return self;
+    TMP_VRT_CTX;
+    mrb_value v;
+    mrb_get_args(mrb, "s", &v);
+    VRT_acl_log(ctx,RSTRING_PTR(v));
+    return mrb_nil_value();
 }
 
 mrb_value mrb_vcl_acl_match(mrb_state *mrb, mrb_value self)
 {
-    return self;
+    TMP_VRT_CTX;
+    mrb_value v,w;
+    VCL_IP ip = NULL;
+    VCL_ACL acl = NULL;
+    int i;
+    mrb_get_args(mrb, "oo", &v, &w);
+    i = VRT_acl_match(ctx, acl, ip);
+    return mrb_fixnum_value(i);
 }
 
 void mrb_define_varnish_acl_class(mrb_state *mrb)
