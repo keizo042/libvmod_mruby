@@ -85,6 +85,11 @@ static mrb_value mrb_vcl_purge(mrb_state *mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+static mrb_value mrb_vcl_count(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
 static void mrb_define_vcl_methods(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_class_get(mrb, "Varnish");
