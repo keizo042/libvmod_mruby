@@ -90,6 +90,16 @@ static mrb_value mrb_vcl_count(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static mrb_value mrb_vcl_cach_req_body(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
+static mrb_value mrb_vcl_selecthttp(mrb_state *mrb, mrb_value self)
+{
+    return self;
+}
+
 static void mrb_define_vcl_methods(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_class_get(mrb, "Varnish");
@@ -99,8 +109,10 @@ static void mrb_define_vcl_methods(mrb_state *mrb)
     mrb_define_method(mrb, varnish, "synth", mrb_vcl_synth, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, varnish, "local_ip", mrb_vcl_local_ip, MRB_ARGS_NONE());
     mrb_define_method(mrb, varnish, "ban", mrb_vcl_ban, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, varnish, "purge", mrb_vcl_purge, MRB_ARGS_REQ(1));
-    return;
+    mrb_define_method(mrb, varnish, "count", mrb_vcl_count, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, varnish, "purge", mrb_vcl_purge, MRB_ARGS_REQ(3));
+    mrb_define_method(mrb, varnish, "cache_req_body", mrb_vcl_cach_req_body, MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, varnish, "selecthttp", mrb_vcl_selecthttp, MRB_ARGS_NONE());
 }
 
 void mrb_define_vcl_class(mrb_state *mrb)
