@@ -30,6 +30,8 @@ libvmod_mruby_la_SOURCES =	\
 	vmod_mruby_obj.h	\
 	vmod_mruby_acl.c	\
 	vmod_mruby_acl.h	\
+	vmod_mruby_director.c	\
+	vmod_mruby_director.h	\
 	debug.h
 
 nodist_libvmod_mruby_la_SOURCES = \
