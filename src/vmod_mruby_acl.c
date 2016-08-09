@@ -16,6 +16,7 @@ mrb_value mrb_vcl_acl_log(mrb_state *mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+#if (VRT_MAJOR_VERSION >= 4U) && (VRT_MINOR_VERSION >= 0U)
 mrb_value mrb_vcl_acl_match(mrb_state *mrb, mrb_value self)
 {
     TMP_VRT_CTX;
@@ -27,6 +28,7 @@ mrb_value mrb_vcl_acl_match(mrb_state *mrb, mrb_value self)
     i = VRT_acl_match(ctx, acl, ip);
     return mrb_fixnum_value(i);
 }
+#endif
 
 void mrb_define_varnish_acl_class(mrb_state *mrb)
 {
