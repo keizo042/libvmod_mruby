@@ -117,6 +117,8 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
     FILE *fp;
     mrb_vcl_ctx_t *mrb = get_vcl_ctx();
+    struct mrb_parser_state *parser;
+    struct RProc *proc;
     if(!mrb)
     {
         pthread_mutex_lock(&mutex);
@@ -132,10 +134,26 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     }
 
     pthread_mutex_lock(&mutex);
-    mrb_load_file(mrb->mrb ,fp);
+    parser = mrb_parse_file(mrb->mrb, fp, NULL);
     pthread_mutex_unlock(&mutex);
 
     fclose(fp);
+    if(NULL == parser)
+    {
+        return -1;
+    }
+
+    proc = mrb_generate_code(mrb->mrb, parser);
+    mrb_pool_close(parser->pool);
+    if( NULL == proc)
+    {
+        return -1;
+    }
+    mrb_run(mrb->mrb, proc, mrb_top_self(mrb->mrb));
+    if(mrb->mrb->exc)
+    {
+        return -1;
+    }
     return 0;
 }
 
