@@ -8,6 +8,8 @@
 #include "vmod_mruby_beresp.h"
 #include "vmod_mruby_obj.h"
 
+#include "vcs.h"
+
 
 static mrb_vcl_internal_state *mrb_vcl_internal_state_init(mrb_state *mrb)
 {
@@ -100,6 +102,19 @@ static mrb_value mrb_vcl_selecthttp(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+static mrb_value mrb_vcl_vcs_version(mrb_state *mrb, mrb_value self)
+{
+    return mrb_str_new_cstr(mrb, VCS_version);
+}
+
+static mrb_value mrb_vcl_vcs_message(mrb_state *mrb, mrb_value self)
+{
+    const char *msg;
+    mrb_get_args(mrb, "s",msg);
+    VCS_Message(msg);
+    return mrb_nil_value();
+}
+
 static void mrb_define_vcl_methods(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_class_get(mrb, "Varnish");
@@ -113,6 +128,8 @@ static void mrb_define_vcl_methods(mrb_state *mrb)
     mrb_define_method(mrb, varnish, "purge", mrb_vcl_purge, MRB_ARGS_REQ(3));
     mrb_define_method(mrb, varnish, "cache_req_body", mrb_vcl_cach_req_body, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, varnish, "selecthttp", mrb_vcl_selecthttp, MRB_ARGS_NONE());
+    mrb_define_method(mrb, varnish, "vcs_version", mrb_vcl_vcs_version, MRB_ARGS_NONE());
+    mrb_define_method(mrb, varnish, "vcs_message", mrb_vcl_vcs_message, MRB_ARGS_REQ(1));
 }
 
 void mrb_define_vcl_class(mrb_state *mrb)
