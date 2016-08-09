@@ -109,7 +109,7 @@ static mrb_value mrb_vcl_vcs_version(mrb_state *mrb, mrb_value self)
 
 static mrb_value mrb_vcl_vcs_message(mrb_state *mrb, mrb_value self)
 {
-    const char *msg;
+    const char *msg = NULL;
     mrb_get_args(mrb, "s",msg);
     VCS_Message(msg);
     return mrb_nil_value();
