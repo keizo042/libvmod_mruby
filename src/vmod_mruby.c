@@ -128,15 +128,17 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     }
     mrb->mrb->ud = (void*)ctx;
     fp = fopen(path, "r");
+    LOG_DEBUG("file open start");
     if(NULL == fp )
     {
         return -1;
     }
+    LOG_DEBUG("file open done");
 
     pthread_mutex_lock(&mutex);
     LOG_DEBUG("mrb_parse_file start");
     parser = mrb_parse_file(mrb->mrb, fp, NULL);
-    LOG_DEBUG("mrb_parse_file finish");
+    LOG_DEBUG("mrb_parse_file done");
     pthread_mutex_unlock(&mutex);
 
     fclose(fp);
@@ -151,11 +153,11 @@ VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     {
         return -1;
     }
-    LOG_DEBUG("mrb_generate_code finish");
+    LOG_DEBUG("mrb_generate_code done");
 
     LOG_DEBUG("mrb_run start");
     mrb_run(mrb->mrb, proc, mrb_top_self(mrb->mrb));
-    LOG_DEBUG("mrb_run finish");
+    LOG_DEBUG("mrb_run done");
 
     if(mrb->mrb->exc)
     {
