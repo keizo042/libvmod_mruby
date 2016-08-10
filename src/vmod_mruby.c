@@ -2,6 +2,8 @@
 #include "vmod_class.h"
 
 #include "pthread.h"
+#include "mruby.h"
+#include "mruby/compile.h"
 
 static void make_key();
 
