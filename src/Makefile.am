@@ -1,14 +1,14 @@
-AM_CPPFLAGS = @VMOD_INCLUDES@ -Wall -I$(abs_srcdir)/mruby/include -I$(asb_srcdir)/mruby
+AM_CPPFLAGS = @VMOD_INCLUDES@ -Wall -Imruby/include -Imruby
 
 vmoddir = @VMOD_DIR@
 vmod_LTLIBRARIES = libvmod_mruby.la
 
 
 LIBMRUBY = $(srcdir)/mruby/build/host/lib/libmruby.a
-#libvmod_mruby_la_LDFLAGS = -module -export-dynamic -avoid-version -shared  $(MRUBY_LDFLAGS)
-#libvmod_mruby_la_LIBADD = $(LIBMRUBY) $(MRUBY_LIBS)
 
+libvmod_mruby_la_LDFLAGS = -module -export-dynamic   -avoid-version -all-static -Wl,-Bdynamic,-L/path/to,-lshared,-Bstatic
 libvmod_mruby_la_SOURCES =	\
+	$(LIBMRUBY)		\
 	vmod_mruby.h		\
 	vmod_mruby.c		\
 	vmod_class.h		\
@@ -35,8 +35,7 @@ libvmod_mruby_la_SOURCES =	\
 	vmod_mruby_director.h	\
 	vmod_mruby_prob.c	\
 	vmod_mruby_prob.h	\
-	debug.h			\
-	$(LIBMRUBY)
+	debug.h			
 
 nodist_libvmod_mruby_la_SOURCES = \
 	vcc_if.c \
@@ -58,7 +57,6 @@ $(top_srcdir)/src/tests/*.vtc: libvmod_mruby.la
 check: $(VMOD_TESTS)
 
 $(srcdir)/vmod_mruby.c: $(srcdir)/mruby
-$(srcdir)/vmod_class.c: $(srcdir)/mruby
 
 MRUBY_CONFIG_FILE = $(abs_top_srcdir)/build_config.rb
 $(LIBMRUBY): $(srcdir)/mruby $(MRUBY_CONFIG_FILE)
