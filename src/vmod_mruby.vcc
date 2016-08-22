@@ -13,7 +13,7 @@ This is the embedded documentation for the mruby VMOD.
 
 * https://github.com/varnish/libvmod-mruby/
 
-$Event init_function
+$Init init_function
 
 $Function INT init(PRIV_VCL)
 
