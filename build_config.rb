@@ -15,7 +15,7 @@ MRuby::Build.new do |conf|
 
   # C compiler settings
   conf.cc do |cc|
-    #cc.compile_options = "%{flags} -MMD -fPIC -o %{outfile} -c %{infile}"
+    cc.compile_options = "%{flags} -MMD -fPIC -o %{outfile} -c %{infile}"
   end
 
 end

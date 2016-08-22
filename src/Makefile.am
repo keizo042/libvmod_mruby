@@ -6,9 +6,10 @@ vmod_LTLIBRARIES = libvmod_mruby.la
 
 LIBMRUBY = $(srcdir)/mruby/build/host/lib/libmruby.a
 
-libvmod_mruby_la_LDFLAGS = -module -export-dynamic   -avoid-version -all-static -Wl,-Bdynamic,-L/path/to,-lshared,-Bstatic
+libvmod_mruby_la_LDFLAGS = -module    -avoid-version -shared
+libvmod_mruby_la_LIBADD= $(LIBMRUBY)
+
 libvmod_mruby_la_SOURCES =	\
-	$(LIBMRUBY)		\
 	vmod_mruby.h		\
 	vmod_mruby.c		\
 	vmod_class.h		\
