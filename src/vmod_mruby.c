@@ -15,6 +15,7 @@ static mrb_vcl_ctx_t* mrb_vcl_ctx_new()
 {
     mrb_vcl_ctx_t *ctx = malloc( sizeof(mrb_vcl_ctx_t) );
     ctx->mrb = mrb_open();
+    mrb_define_vcl_class(ctx->mrb);
     return ctx;
 }
 
@@ -114,57 +115,68 @@ VCL_INT vmod_init(VRT_CTX, struct vmod_priv *priv)
 }
 
 
+static pthread_mutex_t fp_mutex = PTHREAD_MUTEX_INITIALIZER;
 VCL_INT vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
-    FILE *fp;
-    mrb_vcl_ctx_t *mrb = get_vcl_ctx();
-    struct mrb_parser_state *parser;
-    struct RProc *proc;
-    if(!mrb)
-    {
-        pthread_mutex_lock(&mutex);
-        mrb = mrb_vcl_ctx_new();
-        pthread_mutex_unlock(&mutex);
-        pthread_setspecific(thread_vm_key, mrb);
-    }
-    mrb->mrb->ud = (void*)ctx;
-    fp = fopen(path, "r");
-    LOG_DEBUG("file open start");
-    if(NULL == fp )
+    FILE *fp = NULL;
+    //mrb_vcl_ctx_t *vcl = get_vcl_ctx();
+    mrb_vcl_ctx_t *vcl = mrb_vcl_ctx_new();
+    struct mrb_parser_state *parser = NULL;
+    mrbc_context *c = NULL;
+    struct RProc *proc = NULL;
+
+    if(path == NULL)
     {
         return -1;
     }
+    /*
+    if(!vcl)
+    {
+        vcl = mrb_vcl_ctx_new();
+        pthread_setspecific(thread_vm_key, vcl);
+    }
+    */
+    pthread_mutex_lock(&fp_mutex);
+    fp = fopen(path, "r"); 
+    pthread_mutex_unlock(&fp_mutex);
+    LOG_DEBUG("file open start");
+    if(NULL == fp )
+    {
+        return -2;
+    }
     LOG_DEBUG("file open done");
 
+    c = mrbc_context_new(vcl->mrb);
     pthread_mutex_lock(&mutex);
     LOG_DEBUG("mrb_parse_file start");
-    parser = mrb_parse_file(mrb->mrb, fp, NULL);
+    parser = mrb_parse_file(vcl->mrb, fp, c);
     LOG_DEBUG("mrb_parse_file done");
     pthread_mutex_unlock(&mutex);
 
     fclose(fp);
     if(NULL == parser)
     {
-        return -1;
+        return -3;
     }
 
     LOG_DEBUG("mrb_generate_code start");
-    proc = mrb_generate_code(mrb->mrb, parser);
+    proc = mrb_generate_code(vcl->mrb, parser);
     if( NULL == proc)
     {
-        return -1;
+        return -4;
     }
     LOG_DEBUG("mrb_generate_code done");
 
     LOG_DEBUG("mrb_run start");
-    mrb_run(mrb->mrb, proc, mrb_top_self(mrb->mrb));
+    mrb_run(vcl->mrb, proc, mrb_top_self(vcl->mrb));
     LOG_DEBUG("mrb_run done");
 
-    if(mrb->mrb->exc)
+    if(vcl->mrb->exc)
     {
-        return -1;
+        return -5;
     }
     return 0;
+
 }
 

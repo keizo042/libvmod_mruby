@@ -4,23 +4,12 @@
 # (vmodtool requires this format.)
 #
 #
-$Module mruby  VMOD
+$Module mruby Module 
 
-DESCRIPTION
-===========
 
-This is the embedded documentation for the mruby VMOD. 
-
-* https://github.com/varnish/libvmod-mruby/
-
-$Init init_function
-
+$Event init_function
 $Function INT init(PRIV_VCL)
-
 $Function STRING exec_str(PRIV_VCL, STRING)
-
 $Function INT exec_int(PRIV_VCL, STRING)
-
 $Function VOID exec(PRIV_VCL, STRING)
-
 $Function INT handler(PRIV_VCL, STRING)
