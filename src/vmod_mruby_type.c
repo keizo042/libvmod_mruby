@@ -48,7 +48,7 @@ void mrb_define_vcl_type_class(mrb_state *mrb)
     int_        =   mrb_define_class_under(mrb, type,   "Int",          mrb->object_class);
     ip          =   mrb_define_class_under(mrb, type,   "Ip",           mrb->object_class);
     real        =   mrb_define_class_under(mrb, type,   "Real",         mrb->object_class);
-    stevedore   =  mrb_define_class_under(mrb, type,   "Stevedore",    mrb->object_class);
-    time        =   mrb_define_class_under(mrb, type,   "Stevedore",    mrb->object_class);
+    stevedore   =  mrb_define_class_under(mrb, type,    "Stevedore",    mrb->object_class);
+    time        =   mrb_define_class_under(mrb, type,   "Time",         mrb->object_class);
     
 }

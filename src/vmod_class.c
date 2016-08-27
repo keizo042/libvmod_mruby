@@ -7,6 +7,8 @@
 #include "vmod_mruby_bereq.h"
 #include "vmod_mruby_beresp.h"
 #include "vmod_mruby_obj.h"
+#include "vmod_mruby_type.h"
+#include "vmod_mruby_action.h"
 
 #include "vcs.h"
 
@@ -145,6 +147,8 @@ void mrb_define_vcl_class(mrb_state *mrb)
     mrb_define_vcl_server_class(mrb);
     mrb_define_vcl_client_class(mrb);
     mrb_define_vcl_obj_class(mrb);
+    mrb_define_vcl_type_class(mrb);
+    mrb_define_vcl_action_class(mrb);
 
 }
 
