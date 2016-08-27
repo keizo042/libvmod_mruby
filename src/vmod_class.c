@@ -44,13 +44,69 @@ static mrb_value mrb_vcl_varnish_init(mrb_state *mrb, mrb_value self)
     return self;
 }
 
+
+#define MRB_VCL_RET_ABANDON                 0
+#define MRB_VCL_RET_DELIVER                 1
+#define MRB_VCL_RET_FETCH                   2
+#define MRB_VCL_RET_HASH                    3
+#define MRB_VCL_RET_LOOKUP                  4
+#define MRB_VCL_RET_OK                      5
+#define MRB_VCL_RET_PASS                    6
+#define MRB_VCL_RET_PIPE                    7
+#define MRB_VCL_RET_PURGE                   8
+#define MRB_VCL_RET_RESTART                 9
+#define MRB_VCL_RET_RETRY                   10
+#define MRB_VCL_RET_SYNTH                   11
+
+
+static int mrb_vcl_action_check(mrb_state *mrb, mrb_value action)
+{
+    const char  *name = mrb_obj_classname(mrb, action);
+#define cmp(x)  strncmp(x,name, strlen(x))
+    if( cmp("Deliver") == 0)
+        return MRB_VCL_RET_DELIVER;
+
+    if( cmp("Fetch") == 0)
+        return MRB_VCL_RET_FETCH;
+
+    if(cmp("Hash") == 0)
+        return MRB_VCL_RET_HASH;
+
+    if(cmp("Lookup") == 0)
+        return MRB_VCL_RET_LOOKUP;
+
+    if(cmp("Ok") == 0)
+        return MRB_VCL_RET_OK;
+
+    if(cmp("Pass") == 0)
+        return MRB_VCL_RET_PASS;
+
+    if(cmp("Pipe") == 0)
+        return MRB_VCL_RET_PIPE;
+
+    if(cmp("Purge") == 0)
+        return MRB_VCL_RET_PURGE;
+
+    if(cmp("Restart") == 0)
+        return MRB_VCL_RET_RESTART;
+
+    if(cmp("Retry") == 0)
+        return MRB_VCL_RET_RETRY;
+
+    if(cmp("Synth") == 0)
+        return MRB_VCL_RET_SYNTH;
+
+    return MRB_VCL_RET_ABANDON;
+}
+
 static mrb_value mrb_vcl_return(mrb_state *mrb, mrb_value self)
 {
-    mrb_value klass;
+    mrb_value action;
     TMP_VRT_CTX;
-    unsigned hand  = 0;
-    mrb_get_args(mrb,"o",&klass);
-    VRT_handling(ctx, hand);
+    unsigned hander  = 0;
+    mrb_get_args(mrb,"o",&action);
+    hander = mrb_vcl_action_check(mrb, action);
+    VRT_handling(ctx, hander);
     return mrb_nil_value();
 }
 
