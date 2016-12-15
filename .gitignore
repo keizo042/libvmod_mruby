@@ -8,6 +8,8 @@ Makefile.in
 *.la
 *~
 *.[1-9]
+TAGS
+tags
 
 /aclocal.m4
 /autom4te.cache/
