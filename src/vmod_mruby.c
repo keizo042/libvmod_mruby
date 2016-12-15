@@ -116,7 +116,7 @@ VCL_VOID vmod_init(VRT_CTX, struct vmod_priv *priv)
 
 
 static pthread_mutex_t fp_mutex = PTHREAD_MUTEX_INITIALIZER;
-VCL_STRING vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
+VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
     FILE *fp = NULL;
@@ -129,7 +129,7 @@ VCL_STRING vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 
     if(path == NULL)
     {
-        return "path fail";
+        return ;
     }
     /*
     if(!vcl)
@@ -144,7 +144,7 @@ VCL_STRING vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     LOG_DEBUG("file open start");
     if(NULL == fp )
     {
-        return "fail to open file";
+        return ;
     }
     LOG_DEBUG("file open done");
 
@@ -158,14 +158,14 @@ VCL_STRING vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     fclose(fp);
     if(NULL == parser)
     {
-        return "fail parse ";
+        return ;
     }
 
     LOG_DEBUG("mrb_generate_code start");
     proc = mrb_generate_code(vcl->mrb, parser);
     if( NULL == proc)
     {
-        return "fail generate ";
+        return ;
     }
     LOG_DEBUG("mrb_generate_code done");
 
@@ -175,15 +175,17 @@ VCL_STRING vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 
     if(vcl->mrb->exc)
     {
+/*
         char *buf = malloc( sizeof(char) * 1024);
         strcpy(buf,"error:");
         strcpy(buf,RSTRING_PTR(mrb_get_backtrace(vcl->mrb)));
-        return buf;
+*/
+        return ;
 
     }
     mrbc_context_free(vcl->mrb, c);
     mrb_vcl_ctx_close(vcl);
-    return "ok";
+    return ;
 
 }
 
