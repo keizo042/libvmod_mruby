@@ -32,3 +32,4 @@ Makefile.in
 /src/vmod_*rst
 /src/mruby/
 /src/config.log
+.vagrant/
