@@ -66,6 +66,6 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
      apt-get update
-     apt-get install -y varnish libvarnish-dev  libvarnishapi1 pkg-config python-docutils ruby yacc bison
+     apt-get install -y varnish libvarnishapi-dev pkg-config python-docutils ruby yacc bison 
    SHELL
 end

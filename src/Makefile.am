@@ -1,4 +1,4 @@
-AM_CPPFLAGS = @VMOD_INCLUDES@ -Wall -Imruby/include -Imruby
+AM_CPPFLAGS = @VMOD_INCLUDES@ -Wall -Imruby/include -Imruby -fPIC 
 
 vmoddir = @VMOD_DIR@
 vmod_LTLIBRARIES = libvmod_mruby.la
@@ -6,7 +6,7 @@ vmod_LTLIBRARIES = libvmod_mruby.la
 
 LIBMRUBY = $(srcdir)/mruby/build/host/lib/libmruby.a
 
-libvmod_mruby_la_LDFLAGS = -module  -avoid-version -shared
+libvmod_mruby_la_LDFLAGS = -module  -avoid-version -shared  --whole-archive
 libvmod_mruby_la_LIBADD= $(LIBMRUBY)
 
 libvmod_mruby_la_SOURCES =	\

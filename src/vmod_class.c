@@ -203,8 +203,10 @@ void mrb_define_vcl_class(mrb_state *mrb)
     mrb_define_vcl_server_class(mrb);
     mrb_define_vcl_client_class(mrb);
     mrb_define_vcl_obj_class(mrb);
+#if 0
     mrb_define_vcl_type_class(mrb);
     mrb_define_vcl_action_class(mrb);
+#endif
 
 }
 
