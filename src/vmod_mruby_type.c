@@ -8,11 +8,13 @@ VCL_IP mrb_vcl_ip_cptr(mrb_state *mrb, mrb_value value)
     return ip;
 }
 
+#if 0
 VCL_ACL mrb_vcl_acl_cptr(mrb_state *mrb, mrb_value value)
 {
     VCL_ACL acl = DATA_PTR(value);
     return acl;
 }
+#endif
 void mrb_define_vcl_type_class(mrb_state *mrb)
 {
     struct RClass *type = mrb_define_class_under_varnish(mrb, "Type");
