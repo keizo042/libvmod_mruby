@@ -1,1 +1,12 @@
 varnishtest "resp"
+
+varnish  v1 +vcl {
+    include "./mruby/resp.rb";
+} -start
+
+server s1 {
+} -start
+
+client c1 {
+} -run
+
