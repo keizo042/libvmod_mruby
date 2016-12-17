@@ -37,12 +37,14 @@ Vagrant.configure("2") do |config|
   # config.push.define "atlas" do |push|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
-    packages = ["varnish", "libvarnishapi-dev", "pkg-config", "python-docutils", "ruby", "bison",  "automake", "libtool", "git", "nginx"]
+    config.vm.synced_folder "./vagrant/etc/varnish/mruby", "/etc/varnish/mruby"
+    packages = ["libvarnishapi-dev", "pkg-config", "python-docutils", "ruby", "bison",  "automake", "libtool", "git", "nginx", "varnish"]
     install = packages.map{|i| "apt-get install -y " + i}.join("\n")
-   config.vm.provision "shell", inline: <<-SHELL
-     apt-get update
-     #{install}
-   SHELL
 
-  config.vm.synced_folder "./vagrant/etc/varnish", "/etc/varnish"
+    config.vm.provision "shell", inline: <<-SHELL
+     apt-get update
+     apt-get upgrade -y
+     #{install}
+    SHELL
+
 end
