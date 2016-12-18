@@ -176,6 +176,20 @@ static mrb_value mrb_vcl_vcs_message(mrb_state *mrb, mrb_value self)
 static void mrb_define_vcl_methods(mrb_state *mrb)
 {
     struct RClass *varnish = mrb_class_get(mrb, "Varnish");
+
+    mrb_define_const(mrb, varnish, "ABANDON", mrb_fixnum_value(MRB_VCL_RET_ABANDON));
+    mrb_define_const(mrb, varnish, "DELIVER", mrb_fixnum_value(MRB_VCL_RET_DELIVER));
+    mrb_define_const(mrb, varnish, "FETCH", mrb_fixnum_value(MRB_VCL_RET_FETCH));
+    mrb_define_const(mrb, varnish, "HASH", mrb_fixnum_value(MRB_VCL_RET_HASH));
+    mrb_define_const(mrb, varnish, "LOOKUP", mrb_fixnum_value(MRB_VCL_RET_LOOKUP));
+    mrb_define_const(mrb, varnish, "OK", mrb_fixnum_value(MRB_VCL_RET_OK));
+    mrb_define_const(mrb, varnish, "PASS", mrb_fixnum_value(MRB_VCL_RET_PASS));
+    mrb_define_const(mrb, varnish, "PIPE", mrb_fixnum_value(MRB_VCL_RET_PIPE));
+    mrb_define_const(mrb, varnish, "PURGE", mrb_fixnum_value(MRB_VCL_RET_PURGE));
+    mrb_define_const(mrb, varnish, "RESTART", mrb_fixnum_value(MRB_VCL_RET_RESTART));
+    mrb_define_const(mrb, varnish, "RETRY", mrb_fixnum_value(MRB_VCL_RET_RETRY));
+    mrb_define_const(mrb, varnish, "SYNTH", mrb_fixnum_value(MRB_VCL_RET_SYNTH));
+
     mrb_define_class_method(mrb, varnish, "return", mrb_vcl_return,  MRB_ARGS_REQ(1));
     mrb_define_method(mrb, varnish, "initialize", mrb_vcl_varnish_init, MRB_ARGS_NONE());
     mrb_define_method(mrb, varnish, "return", mrb_vcl_return, MRB_ARGS_NONE());
