@@ -1,1 +1,21 @@
 varnishtest "resp002"
+
+server s1 {
+    rxreq
+    expect req.url == "/"
+    txresp
+} -start
+
+varnish v1 -vcl+backend {
+import mruby;
+	sub vcl_deliver {
+	  set resp.status = mruby.exec_int("500");
+	}
+} -start
+
+client c2 {
+    txreq -url "/"
+    rxresp
+    expect resp.status == 500
+} -run
+
