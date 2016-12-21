@@ -66,6 +66,20 @@ static mrb_value mrb_vcl_req_restarts(mrb_state *mrb, mrb_value self)
     return mrb_fixnum_value( VRT_r_req_restarts(ctx));
 }
 
+static mrb_value mrb_vcl_req_url(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    return mrb_str_new_cstr(mrb, VRT_r_req_url(ctx));
+}
+
+#if 0
+static mrb_value mrb_vcl_req_url(mrb_state *mrb, mrb_value self)
+{
+    TMP_VRT_CTX;
+    return mrb_str_new_cstr(mrb, VRT_r_req_top_url(ctx));
+}
+#endif
+
 void mrb_define_vcl_req_class(mrb_state *mrb)
 {
     struct RClass *req;
@@ -78,5 +92,9 @@ void mrb_define_vcl_req_class(mrb_state *mrb)
     mrb_define_method(mrb, req, "hash_ignore_busy", mrb_vcl_req_hash_ignore_busy, MRB_ARGS_NONE());
     mrb_define_method(mrb, req, "proto", mrb_vcl_req_proto, MRB_ARGS_NONE());
     mrb_define_method(mrb, req, "restarts", mrb_vcl_req_restarts, MRB_ARGS_NONE());
+    mrb_define_method(mrb, req, "url", mrb_vcl_req_url, MRB_ARGS_NONE());
+#if 0
+    mrb_define_method(mrb, req, "top_url", mrb_vcl_req_top_url, MRB_ARGS_NONE());
+#endif
     return ;
 }

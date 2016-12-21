@@ -1,11 +1,2 @@
 varnishtest "bereq"
 
-varnish v1 +vcl  {
-} -start
-
-server s1 {
-} -start
-
-client c1 {
-} -run
-
