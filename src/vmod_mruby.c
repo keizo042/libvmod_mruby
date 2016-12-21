@@ -114,6 +114,10 @@ VCL_VOID vmod_init(VRT_CTX, struct vmod_priv *priv,VCL_STRING path)
     return;
 }
 
+VCL_BOOL vmod_ok(VRT_CTX, struct vmod_priv *priv)
+{
+}
+
 
 static pthread_mutex_t fp_mutex = PTHREAD_MUTEX_INITIALIZER;
 VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
