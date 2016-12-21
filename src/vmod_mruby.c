@@ -11,6 +11,12 @@ typedef struct mrb_vcl_ctx_t {
     mrb_state *mrb;
 }mrb_vcl_ctx_t;
 
+typedef void (*thread_desruct_t)(void*);
+
+static pthread_once_t thread_once = PTHREAD_ONCE_INIT;
+pthread_key_t thread_vm_key ;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
 static mrb_vcl_ctx_t* mrb_vcl_ctx_new()
 {
     mrb_vcl_ctx_t *ctx = malloc( sizeof(mrb_vcl_ctx_t) );
@@ -28,12 +34,6 @@ static void mrb_vcl_ctx_close(void *p)
 
 
 
-typedef void (*thread_desruct_t)(void*);
-
-static pthread_once_t thread_once = PTHREAD_ONCE_INIT;
-pthread_key_t thread_vm_key ;
-pthread_key_t thread_req_key;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
 mrb_vcl_ctx_t *get_vcl_ctx()
@@ -44,8 +44,13 @@ mrb_vcl_ctx_t *get_vcl_ctx()
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 {
-
+    mrb_vcl_ctx_t *ctx =NULL;
     pthread_once(&thread_once, make_key);
+    ctx = mrb_vcl_ctx_new();
+    if(ctx){
+        pthread_setspecific(thread_vm_key, mrb);
+    }
+
 
 	return 0;
 }
@@ -53,7 +58,6 @@ init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
 static void make_key()
 {
     pthread_key_create(&thread_vm_key, (thread_desruct_t)mrb_vcl_ctx_close);
-    pthread_key_create(&thread_req_key, (thread_desruct_t)mrb_vcl_ctx_close);
 }
 
 
@@ -124,8 +128,7 @@ VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
     FILE *fp = NULL;
-    //mrb_vcl_ctx_t *vcl = get_vcl_ctx();
-    mrb_vcl_ctx_t *vcl = mrb_vcl_ctx_new();
+    mrb_vcl_ctx_t *vcl = NULL;
     struct mrb_parser_state *parser = NULL;
     mrbc_context *c = NULL;
     struct RProc *proc = NULL;
@@ -133,18 +136,15 @@ VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 
     if(path == NULL)
     {
+        abort();
         return ;
     }
-    /*
     if(!vcl)
     {
         vcl = mrb_vcl_ctx_new();
         pthread_setspecific(thread_vm_key, vcl);
     }
-    */
-    pthread_mutex_lock(&fp_mutex);
     fp = fopen(path, "r"); 
-    pthread_mutex_unlock(&fp_mutex);
     LOG_DEBUG("file open start");
     if(NULL == fp )
     {
@@ -153,15 +153,14 @@ VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     LOG_DEBUG("file open done");
 
     c = mrbc_context_new(vcl->mrb);
-    pthread_mutex_lock(&mutex);
     LOG_DEBUG("mrb_parse_file start");
     parser = mrb_parse_file(vcl->mrb, fp, c);
     LOG_DEBUG("mrb_parse_file done");
-    pthread_mutex_unlock(&mutex);
 
     fclose(fp);
     if(NULL == parser)
     {
+        abort();
         return ;
     }
 
@@ -169,6 +168,7 @@ VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
     proc = mrb_generate_code(vcl->mrb, parser);
     if( NULL == proc)
     {
+        abort();
         return ;
     }
     LOG_DEBUG("mrb_generate_code done");
@@ -179,13 +179,11 @@ VCL_VOID vmod_handler(VRT_CTX, struct vmod_priv *priv, VCL_STRING path)
 
     if(vcl->mrb->exc)
     {
-/*
-        char *buf = malloc( sizeof(char) * 1024);
-        strcpy(buf,"error:");
+#if 0
         strcpy(buf,RSTRING_PTR(mrb_get_backtrace(vcl->mrb)));
-*/
+#endif
+        abort();
         return ;
-
     }
     mrbc_context_free(vcl->mrb, c);
     mrb_vcl_ctx_close(vcl);
