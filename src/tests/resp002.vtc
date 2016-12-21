@@ -1,19 +1,1 @@
 varnishtest "resp002"
-
-server s002resp {
-    rxreq
-    expect req.url == "/"
-    txresp
-} -start
-
-varnish v002resp -vcl+backend {
-	sub vcl_deliver{
-	}
-} -start
-
-client v002resp {
-    txreq -url "/"
-    rxresp
-    expect resp.status == 200
-} -run
-
