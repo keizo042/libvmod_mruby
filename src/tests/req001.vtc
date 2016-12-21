@@ -1,0 +1,20 @@
+varnishtest "req002"
+
+server s1 {
+        rxreq
+        expect req.url == "/"
+        txresp
+} -start
+
+
+varnish v1 -vcl+backend {
+        import mruby;
+        sub vcl_recv {
+        }
+}
+
+client c1 {
+        txreq -url "/"
+        rxresp
+}
+

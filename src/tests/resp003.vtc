@@ -1,0 +1,22 @@
+varnishtest "resp003 mruby.handler"
+
+server s1 {
+    rxreq
+    expect req.url == "/"
+    txresp
+} -start
+
+varnish v1 -vcl+backend {
+    vcl 4.0;
+    import mruby;
+	sub vcl_deliver {
+            mruby.handler("./tests/mruby/resp003.rb");
+	}
+} -start
+
+client c1 {
+    txreq -url "/"
+    rxresp
+    expect resp.status == 200
+} -run
+
