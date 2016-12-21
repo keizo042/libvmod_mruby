@@ -35,3 +35,4 @@ tags
 /src/mruby/
 /src/config.log
 .vagrant/
+*dpkg-new
