@@ -86,7 +86,7 @@ VCL_INT vmod_exec_int(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
     return mrb_fixnum(v);
 }
 
-VCL_VOID vmod_exec_noreturn(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
+VCL_VOID vmod_exec(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
 
@@ -98,7 +98,7 @@ VCL_VOID vmod_exec_noreturn(VRT_CTX, struct vmod_priv *priv, VCL_STRING code)
 }
 
 
-VCL_VOID vmod_init(VRT_CTX, struct vmod_priv *priv)
+VCL_VOID vmod_init(VRT_CTX, struct vmod_priv *priv,VCL_STRING path)
 {
     CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
     mrb_vcl_ctx_t  *mrb = mrb_vcl_ctx_new();

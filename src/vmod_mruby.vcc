@@ -8,8 +8,8 @@ $Module mruby Module
 
 
 $Event init_function
-$Function VOID init(PRIV_VCL)
+$Function VOID init(PRIV_VCL, STRING)
 $Function STRING exec_str(PRIV_VCL, STRING)
 $Function INT exec_int(PRIV_VCL, STRING)
-$Function VOID exec_noreturn(PRIV_VCL, STRING)
+$Function VOID exec(PRIV_VCL, STRING)
 $Function VOID handler(PRIV_VCL, STRING)
